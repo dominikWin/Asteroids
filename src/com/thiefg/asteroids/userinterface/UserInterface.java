@@ -1,14 +1,18 @@
 package com.thiefg.asteroids.userinterface;
 
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.*;
+
 import java.awt.Font;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 
 import com.thiefg.asteroids.Game;
+import com.thiefg.asteroids.subobjects.Vector2d;
 
 public class UserInterface {
 
@@ -21,31 +25,47 @@ public class UserInterface {
 	public static final String FONT_DIGITALE = "digitale";
 	public static final String FONT_TRANSISTOR = "transistor";
 
+	int round;
+	int livesLeft;
+	int score;
+	ArrayList<PlayerModel> playerModels;
+
 	private TrueTypeFont mainFont24p;
 
 	public UserInterface() {
 		try {
-			InputStream inputStream = new FileInputStream(FONT_LOCATION_PREFIX + FONT_BITWISE + FONT_TYPE_SUFFIX);
+			InputStream inputStream = new FileInputStream(FONT_LOCATION_PREFIX
+					+ FONT_BITWISE + FONT_TYPE_SUFFIX);
 			Font tmpFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			tmpFont = tmpFont.deriveFont(24f); // set font size
 			mainFont24p = new TrueTypeFont(tmpFont, ALIAS_TEXT);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		round = 0;
+		livesLeft = Game.getWorld().getPlayer().getLivesLeft();
+		score = Game.getWorld().getPlayer().getScore();
+		playerModels = new ArrayList<PlayerModel>();
 	}
 
 	public void update() {
-
+		round = 0;
+		livesLeft = Game.getWorld().getPlayer().getLivesLeft();
+		score = Game.getWorld().getPlayer().getScore();
+		playerModels.clear();
+		for (int i = 0; i < livesLeft; i++) {
+			playerModels.add(new PlayerModel(new Vector2d(100 + 25 * i, 150),
+					270));
+		}
 	}
 
 	public void render() {
-		GL11.glEnable(GL11.GL_BLEND);
+		for (PlayerModel pm : playerModels)
+			pm.render();
+		glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		mainFont24p.drawString(100, 100,
-				String.valueOf(Game.getWorld().getAsteroids().size()),
-				Color.green);
-		GL11.glDisable(GL11.GL_BLEND);
-		System.out.println(String
-				.valueOf(Game.getWorld().getAsteroids().size()));
+		mainFont24p.drawString(100, 100, String.valueOf(score));
+		mainFont24p.drawString(Game.WIDTH / 2 - 24, 100, String.valueOf(round));
+		glDisable(GL11.GL_BLEND);
 	}
 }

@@ -38,6 +38,7 @@ public class Bullet {
 	    if (Vector2d.distance(a.getLocation(), location) < a.getSize()) {
 		a.hit();
 		setDestroyed(true);
+		Game.getWorld().getPlayer().addScore(a.getSize());
 	    }
 	}
     }
