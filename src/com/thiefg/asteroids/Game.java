@@ -24,6 +24,7 @@ public class Game {
 	public static int WIDTH = Display.getDesktopDisplayMode().getWidth();
 	private static World world;
 	private static UserInterface ui;
+	private static Progress progress;
 
 	public static void main(String[] args) throws LWJGLException {
 		new Game();
@@ -72,6 +73,7 @@ public class Game {
 
 	private void update() {
 		Input.update();
+		progress.update();
 		world.update();
 		ui.update();
 	}
@@ -85,6 +87,7 @@ public class Game {
 		Input.update();
 		setWorld(new World());
 		ui = new UserInterface();
+		progress = new Progress();
 		Input.showMouse(false);
 	}
 
@@ -102,5 +105,13 @@ public class Game {
 
 	public static void setUi(UserInterface ui) {
 		Game.ui = ui;
+	}
+
+	public static Progress getProgress() {
+		return progress;
+	}
+
+	public static void setProgress(Progress progress) {
+		Game.progress = progress;
 	}
 }

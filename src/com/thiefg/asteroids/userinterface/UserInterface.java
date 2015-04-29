@@ -1,6 +1,5 @@
 package com.thiefg.asteroids.userinterface;
 
-import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.*;
 
 import java.awt.Font;
@@ -31,6 +30,8 @@ public class UserInterface {
 	ArrayList<PlayerModel> playerModels;
 
 	private TrueTypeFont mainFont24p;
+	private String message;
+	private long messageEndTime;
 
 	public UserInterface() {
 		try {
@@ -46,6 +47,8 @@ public class UserInterface {
 		livesLeft = Game.getWorld().getPlayer().getLivesLeft();
 		score = Game.getWorld().getPlayer().getScore();
 		playerModels = new ArrayList<PlayerModel>();
+		message = "";
+		messageEndTime = 0;
 	}
 
 	public void update() {
@@ -57,6 +60,9 @@ public class UserInterface {
 			playerModels.add(new PlayerModel(new Vector2d(100 + 25 * i, 150),
 					270));
 		}
+		if(System.currentTimeMillis() > messageEndTime) {
+			message = "";
+		}
 	}
 
 	public void render() {
@@ -66,6 +72,12 @@ public class UserInterface {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		mainFont24p.drawString(100, 100, String.valueOf(score));
 		mainFont24p.drawString(Game.WIDTH / 2 - 24, 100, String.valueOf(round));
+		mainFont24p.drawString(Game.WIDTH / 2 - 24, 150, message);
 		glDisable(GL11.GL_BLEND);
+	}
+
+	public void setMessage(String message, long time) {
+		this.message = message;
+		this.messageEndTime = time + System.currentTimeMillis();
 	}
 }

@@ -42,10 +42,6 @@ public class World {
 	}
 
 	public void update() {
-		if (Math.random() < getAsteroidAddChance()
-				&& asteroids.size() < MAX_ASTEROID_COUNT)
-			addAsteroid(new Asteroid(new Vector2d(Math.random() * Game.WIDTH,
-					Math.random() * Game.HEIGHT)));
 		removeDestroyedAsteroids();
 		for (Asteroid a : asteroids)
 			a.update();
