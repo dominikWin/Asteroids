@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL11.glOrtho;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 
 import com.thiefg.asteroids.input.Input;
 import com.thiefg.asteroids.userinterface.UserInterface;
@@ -76,6 +77,15 @@ public class Game {
 	}
 
 	private void init() {
+//		GL11.glEnable(GL11.GL_TEXTURE_2D);
+//		GL11.glShadeModel(GL11.GL_SMOOTH);
+//		GL11.glDisable(GL11.GL_DEPTH_TEST);
+//		GL11.glDisable(GL11.GL_LIGHTING);
+//
+//		GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+//		GL11.glClearDepth(1);
+
+		
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
