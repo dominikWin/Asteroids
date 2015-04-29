@@ -52,7 +52,7 @@ public class UserInterface {
 	}
 
 	public void update() {
-		round = 0;
+		round = Game.getProgress().getRound();
 		livesLeft = Game.getWorld().getPlayer().getLivesLeft();
 		score = Game.getWorld().getPlayer().getScore();
 		playerModels.clear();
@@ -72,7 +72,7 @@ public class UserInterface {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		mainFont24p.drawString(100, 100, String.valueOf(score));
 		mainFont24p.drawString(Game.WIDTH / 2 - 24, 100, String.valueOf(round));
-		mainFont24p.drawString(Game.WIDTH / 2 - 24, 150, message);
+		mainFont24p.drawString(Game.WIDTH / 2 - (message.length() * 6), 150, message);
 		glDisable(GL11.GL_BLEND);
 	}
 

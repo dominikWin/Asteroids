@@ -12,8 +12,6 @@ import com.thiefg.asteroids.objects.Player;
 import com.thiefg.asteroids.subobjects.Vector2d;
 
 public class World {
-	private static final int MAX_ASTEROID_COUNT = 80;
-
 	public double asteroidAddChance = .0075d;
 
 	private static final double MIN_ASTEROID_DISTANCE_TO_PLAYER = 100;

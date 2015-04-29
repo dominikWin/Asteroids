@@ -26,14 +26,16 @@ public class Progress {
 		case WAIT_INIT:
 			if (System.currentTimeMillis() > startNextRoundTime)
 				startRound();
-			Game.getUi().setMessage("Next round in " + secsToNextRound + " seconds!", 0);
+			Game.getUi().setMessage(
+					"Next round in " + secsToNextRound + " seconds!", 50);
 			break;
 		case WAIT_PLAYER:
 			if (Game.getWorld().getAsteroids().isEmpty())
 				endRound();
 			break;
 		}
-		secsToNextRound = (int) (startNextRoundTime - System.currentTimeMillis() / 1000);
+		secsToNextRound = (int) ((startNextRoundTime - System
+				.currentTimeMillis()) / 1000) + 1;
 	}
 
 	private void endRound() {
