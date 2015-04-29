@@ -10,7 +10,6 @@ import static org.lwjgl.opengl.GL11.glOrtho;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
 
 import com.thiefg.asteroids.input.Input;
 import com.thiefg.asteroids.userinterface.UserInterface;
