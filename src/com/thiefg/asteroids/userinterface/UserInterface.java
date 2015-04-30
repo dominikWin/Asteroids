@@ -52,27 +52,57 @@ public class UserInterface {
 	}
 
 	public void update() {
-		round = Game.getProgress().getRound();
-		livesLeft = Game.getWorld().getPlayer().getLivesLeft();
-		score = Game.getWorld().getPlayer().getScore();
-		playerModels.clear();
-		for (int i = 0; i < livesLeft; i++) {
-			playerModels.add(new PlayerModel(new Vector2d(100 + 25 * i, 150),
-					270));
+		switch (Game.getCurrentGameState()) {
+		case DEATH:
+			break;
+		case GAMEPLAY:
+			round = Game.getProgress().getRound();
+			livesLeft = Game.getWorld().getPlayer().getLivesLeft();
+			score = Game.getWorld().getPlayer().getScore();
+			playerModels.clear();
+			for (int i = 0; i < livesLeft; i++) {
+				playerModels.add(new PlayerModel(
+						new Vector2d(100 + 25 * i, 150), 270));
+			}
+			if (System.currentTimeMillis() > messageEndTime) {
+				message = "";
+			}
+			break;
+		case MAIN_MENU:
+			break;
+		case PAUSED:
+			break;
+		default:
+			break;
+
 		}
-		if(System.currentTimeMillis() > messageEndTime) {
-			message = "";
-		}
+
 	}
 
 	public void render() {
-		for (PlayerModel pm : playerModels)
-			pm.render();
 		glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		mainFont24p.drawString(100, 100, String.valueOf(score));
-		mainFont24p.drawString(Game.WIDTH / 2 - 24, 100, String.valueOf(round));
-		mainFont24p.drawString(Game.WIDTH / 2 - (message.length() * 6), 150, message);
+		switch (Game.getCurrentGameState()) {
+		case DEATH:
+			break;
+		case GAMEPLAY:
+			for (PlayerModel pm : playerModels)
+				pm.render();
+			mainFont24p.drawString(100, 100, String.valueOf(score));
+			mainFont24p.drawString(Game.WIDTH / 2 - 24, 100,
+					String.valueOf(round));
+			mainFont24p.drawString(Game.WIDTH / 2 - (message.length() * 6),
+					150, message);
+			break;
+		case MAIN_MENU:
+			break;
+		case PAUSED:
+			break;
+		default:
+			break;
+
+		}
+
 		glDisable(GL11.GL_BLEND);
 	}
 
