@@ -53,19 +53,20 @@ public class Player {
 	}
 
 	public void update() {
-		if (Input.getKeyDown(Keyboard.KEY_1))
-			gunModifier = GunModifier.SINGLE;
-		if (Input.getKeyDown(Keyboard.KEY_2))
-			gunModifier = GunModifier.DUAL;
-		if (Input.getKeyDown(Keyboard.KEY_3))
-			gunModifier = GunModifier.TRIPLE;
-		if (Input.getKeyDown(Keyboard.KEY_4))
-			gunModifier = GunModifier.QUAD;
-		if (Input.getKeyDown(Keyboard.KEY_8))
-			gunModifier = GunModifier.OCT;
-		if (Input.getKeyDown(Keyboard.KEY_EQUALS))
-			gunModifier = GunModifier.FAST;
-
+		if (Game.devMode) {
+			if (Input.getKeyDown(Keyboard.KEY_1))
+				gunModifier = GunModifier.SINGLE;
+			if (Input.getKeyDown(Keyboard.KEY_2))
+				gunModifier = GunModifier.DUAL;
+			if (Input.getKeyDown(Keyboard.KEY_3))
+				gunModifier = GunModifier.TRIPLE;
+			if (Input.getKeyDown(Keyboard.KEY_4))
+				gunModifier = GunModifier.QUAD;
+			if (Input.getKeyDown(Keyboard.KEY_8))
+				gunModifier = GunModifier.OCT;
+			if (Input.getKeyDown(Keyboard.KEY_EQUALS))
+				gunModifier = GunModifier.FAST;
+		}
 		if (Input.getKey(Keyboard.KEY_LEFT))
 			rotation -= 5;
 		if (Input.getKey(Keyboard.KEY_RIGHT))
@@ -118,16 +119,19 @@ public class Player {
 		for (int i = 0; i < asteroids.size(); i++) {
 			Asteroid a = asteroids.get(i);
 			if (Vector2d.distance(a.getLocation(), location) < a.getSize()
-					+ SCALE_MULTIPLYER && !a.isDestroyed()) {
+					+ SCALE_MULTIPLYER
+					&& !a.isDestroyed()) {
 				livesLeft--;
 				a.hit();
-				if(livesLeft < 0) System.exit(0);
+				if (livesLeft < 0)
+					System.exit(0);
 			}
 		}
 	}
-	
+
 	public void addScore(int asteroidSize) {
-		score += asteroidSize * Vector2d.distance(new Vector2d(0, 0), velocity) / 8;
+		score += asteroidSize * Vector2d.distance(new Vector2d(0, 0), velocity)
+				/ 8;
 	}
 
 	private void fireRequest() {

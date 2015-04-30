@@ -16,6 +16,8 @@ import com.thiefg.asteroids.input.Input;
 import com.thiefg.asteroids.userinterface.UserInterface;
 
 public class Game {
+	public static boolean devMode = false;
+	
 	private static boolean VSYNC = true;
 	private static boolean FULLSCREEN = true;
 	public static int FRAME_CAP = Display.getDesktopDisplayMode()
