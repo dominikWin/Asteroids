@@ -22,7 +22,7 @@ public class Game {
 		MAIN_MENU, GAMEPLAY, PAUSED, DEATH;
 	}
 
-	private static GameState currentGameState = GameState.GAMEPLAY;
+	private static GameState currentGameState = GameState.MAIN_MENU;
 	public static boolean devMode = false;
 	private static boolean VSYNC = true;
 	private static boolean FULLSCREEN = true;
@@ -77,15 +77,18 @@ public class Game {
 
 	private void render() {
 		background.render();
-		world.render();
+		if (currentGameState == GameState.GAMEPLAY)
+			world.render();
 		ui.render();
 	}
 
 	private void update() {
 		Input.update();
 		background.update();
-		progress.update();
-		world.update();
+		if (currentGameState == GameState.GAMEPLAY) {
+			progress.update();
+			world.update();
+		}
 		ui.update();
 	}
 

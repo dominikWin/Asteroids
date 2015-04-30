@@ -7,22 +7,25 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.TrueTypeFont;
 
 import com.thiefg.asteroids.Game;
+import com.thiefg.asteroids.Game.GameState;
+import com.thiefg.asteroids.input.Input;
 import com.thiefg.asteroids.subobjects.Vector2d;
 
 public class UserInterface {
 
 	private static final boolean ALIAS_TEXT = false;
-	public static final String FONT_LOCATION_PREFIX = "res/fonts/";
-	public static final String FONT_TYPE_SUFFIX = ".ttf";
-	public static final String FONT_BITWISE = "bitwise";
-	public static final String FONT_CIRCUT = "circut";
-	public static final String FONT_DIGITAL = "digital";
-	public static final String FONT_DIGITALE = "digitale";
-	public static final String FONT_TRANSISTOR = "transistor";
+	public static final String FONT_LOCATION_PREFIX = "res/fonts/"; //$NON-NLS-1$
+	public static final String FONT_TYPE_SUFFIX = ".ttf"; //$NON-NLS-1$
+	public static final String FONT_BITWISE = "bitwise"; //$NON-NLS-1$
+	public static final String FONT_CIRCUT = "circut"; //$NON-NLS-1$
+	public static final String FONT_DIGITAL = "digital"; //$NON-NLS-1$
+	public static final String FONT_DIGITALE = "digitale"; //$NON-NLS-1$
+	public static final String FONT_TRANSISTOR = "transistor"; //$NON-NLS-1$
 
 	int round;
 	int livesLeft;
@@ -30,8 +33,10 @@ public class UserInterface {
 	ArrayList<PlayerModel> playerModels;
 
 	private TrueTypeFont mainFont24p;
+	private TrueTypeFont mainFont32p;
 	private String message;
 	private long messageEndTime;
+	private int mainMenuSelectedIndex;
 
 	public UserInterface() {
 		try {
@@ -43,12 +48,22 @@ public class UserInterface {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		try {
+			InputStream inputStream = new FileInputStream(FONT_LOCATION_PREFIX
+					+ FONT_BITWISE + FONT_TYPE_SUFFIX);
+			Font tmpFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+			tmpFont = tmpFont.deriveFont(32f); // set font size
+			mainFont32p = new TrueTypeFont(tmpFont, ALIAS_TEXT);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		round = 0;
 		livesLeft = Game.getWorld().getPlayer().getLivesLeft();
 		score = Game.getWorld().getPlayer().getScore();
 		playerModels = new ArrayList<PlayerModel>();
-		message = "";
+		message = ""; //$NON-NLS-1$
 		messageEndTime = 0;
+		setMainMenuSelectedIndex(0);
 	}
 
 	public void update() {
@@ -65,10 +80,11 @@ public class UserInterface {
 						new Vector2d(100 + 25 * i, 150), 270));
 			}
 			if (System.currentTimeMillis() > messageEndTime) {
-				message = "";
+				message = ""; //$NON-NLS-1$
 			}
 			break;
 		case MAIN_MENU:
+			if(Input.getKeyDown(Keyboard.KEY_RETURN)) menuKeyPress();
 			break;
 		case PAUSED:
 			break;
@@ -79,9 +95,14 @@ public class UserInterface {
 
 	}
 
+	private void menuKeyPress() {
+		if(mainMenuSelectedIndex == 0)
+			Game.setCurrentGameState(GameState.GAMEPLAY);
+	}
+
 	public void render() {
 		glEnable(GL11.GL_BLEND);
-		
+
 		switch (Game.getCurrentGameState()) {
 		case DEATH:
 			break;
@@ -97,6 +118,11 @@ public class UserInterface {
 					150, message);
 			break;
 		case MAIN_MENU:
+			mainFont32p.drawString(
+					(Game.WIDTH / 2)
+							- Messages.getString("UserInterface.MainMenuMain")
+									.length() * 8, 200,
+					Messages.getString("UserInterface.MainMenuMain"));
 			break;
 		case PAUSED:
 			break;
@@ -111,5 +137,13 @@ public class UserInterface {
 	public void setMessage(String message, long time) {
 		this.message = message;
 		this.messageEndTime = time + System.currentTimeMillis();
+	}
+
+	public int getMainMenuSelectedIndex() {
+		return mainMenuSelectedIndex;
+	}
+
+	public void setMainMenuSelectedIndex(int mainMenuSelectedIndex) {
+		this.mainMenuSelectedIndex = mainMenuSelectedIndex;
 	}
 }
