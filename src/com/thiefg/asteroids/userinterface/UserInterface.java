@@ -81,13 +81,15 @@ public class UserInterface {
 
 	public void render() {
 		glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
 		switch (Game.getCurrentGameState()) {
 		case DEATH:
 			break;
 		case GAMEPLAY:
+			glDisable(GL11.GL_BLEND);
 			for (PlayerModel pm : playerModels)
 				pm.render();
+			glEnable(GL11.GL_BLEND);
 			mainFont24p.drawString(100, 100, String.valueOf(score));
 			mainFont24p.drawString(Game.WIDTH / 2 - 24, 100,
 					String.valueOf(round));

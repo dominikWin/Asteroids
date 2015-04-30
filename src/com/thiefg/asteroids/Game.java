@@ -13,15 +13,16 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import com.thiefg.asteroids.input.Input;
+import com.thiefg.asteroids.userinterface.Background;
 import com.thiefg.asteroids.userinterface.UserInterface;
 
 public class Game {
-	
+
 	public enum GameState {
 		MAIN_MENU, GAMEPLAY, PAUSED, DEATH;
 	}
-	
-	private static GameState currentGameState = GameState.MAIN_MENU;
+
+	private static GameState currentGameState = GameState.GAMEPLAY;
 	public static boolean devMode = false;
 	private static boolean VSYNC = true;
 	private static boolean FULLSCREEN = true;
@@ -32,6 +33,7 @@ public class Game {
 	private static World world;
 	private static UserInterface ui;
 	private static Progress progress;
+	private static Background background;
 
 	public static void main(String[] args) throws LWJGLException {
 		new Game();
@@ -74,12 +76,14 @@ public class Game {
 	}
 
 	private void render() {
+		background.render();
 		world.render();
 		ui.render();
 	}
 
 	private void update() {
 		Input.update();
+		background.update();
 		progress.update();
 		world.update();
 		ui.update();
@@ -87,6 +91,7 @@ public class Game {
 
 	private void init() {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
@@ -95,6 +100,7 @@ public class Game {
 		setWorld(new World());
 		ui = new UserInterface();
 		progress = new Progress();
+		background = new Background();
 		Input.showMouse(false);
 	}
 
@@ -128,5 +134,13 @@ public class Game {
 
 	public static void setCurrentGameState(GameState currentGameState) {
 		Game.currentGameState = currentGameState;
+	}
+
+	public static Background getBackground() {
+		return background;
+	}
+
+	public static void setBackground(Background background) {
+		Game.background = background;
 	}
 }
