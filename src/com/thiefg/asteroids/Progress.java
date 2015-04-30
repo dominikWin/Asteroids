@@ -23,13 +23,16 @@ public class Progress {
 
 	public Progress() {
 		stage = ProgressState.WAIT_INIT;
-		setStartNextRoundTime(System.currentTimeMillis() + INIT_DELAY);
-		setSecsToNextRound(5);
 		fastGunUnlocked = false;
 		dualGunUnlocked = false;
 		trippleGunUnlocked = false;
 		quadGunUnlocked = false;
 		octGunUnlocked = false;
+	}
+
+	public void init() {
+		setStartNextRoundTime(System.currentTimeMillis() + INIT_DELAY);
+		setSecsToNextRound(5);
 	}
 
 	public void update() {
@@ -87,8 +90,11 @@ public class Progress {
 	private void endRound() {
 		startNextRoundTime = INIT_DELAY + System.currentTimeMillis();
 		stage = ProgressState.WAIT_INIT;
-		Game.getWorld().getPlayer()
-				.setLivesLeft(Game.getWorld().getPlayer().getLivesLeft() + PER_ROUND_LIFE_BOOST);
+		Game.getWorld()
+				.getPlayer()
+				.setLivesLeft(
+						Game.getWorld().getPlayer().getLivesLeft()
+								+ PER_ROUND_LIFE_BOOST);
 	}
 
 	private void startRound() {

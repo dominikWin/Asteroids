@@ -34,9 +34,16 @@ public class Game {
 	private static UserInterface ui;
 	private static Progress progress;
 	private static Background background;
+	private static Game game;
 
 	public static void main(String[] args) throws LWJGLException {
-		new Game();
+		Game.getInstance();
+	}
+
+	private static Game getInstance() {
+		if (game == null)
+			game = new Game();
+		return game;
 	}
 
 	public Game() {
@@ -92,6 +99,20 @@ public class Game {
 		ui.update();
 	}
 
+	public static void gameStart() {
+		progress.init();
+	}
+
+	public static void playerDied() {
+		currentGameState = GameState.DEATH;
+	}
+
+	public static void resetGame() {
+		currentGameState = GameState.MAIN_MENU;
+		setWorld(new World());
+		progress = new Progress();
+	}
+
 	private void init() {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -137,6 +158,8 @@ public class Game {
 
 	public static void setCurrentGameState(GameState currentGameState) {
 		Game.currentGameState = currentGameState;
+		if (currentGameState == GameState.GAMEPLAY)
+			Game.gameStart();
 	}
 
 	public static Background getBackground() {

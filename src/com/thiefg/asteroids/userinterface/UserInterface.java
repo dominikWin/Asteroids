@@ -69,6 +69,8 @@ public class UserInterface {
 	public void update() {
 		switch (Game.getCurrentGameState()) {
 		case DEATH:
+			if (Input.getKeyDown(Keyboard.KEY_RETURN))
+				deathKeyPress();
 			break;
 		case GAMEPLAY:
 			round = Game.getProgress().getRound();
@@ -84,7 +86,8 @@ public class UserInterface {
 			}
 			break;
 		case MAIN_MENU:
-			if(Input.getKeyDown(Keyboard.KEY_RETURN)) menuKeyPress();
+			if (Input.getKeyDown(Keyboard.KEY_RETURN))
+				menuKeyPress();
 			break;
 		case PAUSED:
 			break;
@@ -95,8 +98,12 @@ public class UserInterface {
 
 	}
 
+	private void deathKeyPress() {
+		Game.resetGame();
+	}
+
 	private void menuKeyPress() {
-		if(mainMenuSelectedIndex == 0)
+		if (mainMenuSelectedIndex == 0)
 			Game.setCurrentGameState(GameState.GAMEPLAY);
 	}
 
@@ -105,6 +112,19 @@ public class UserInterface {
 
 		switch (Game.getCurrentGameState()) {
 		case DEATH:
+			mainFont32p
+					.drawString(
+							(Game.WIDTH / 2)
+									- Messages
+											.getString(
+													"UserInterface.DeathMessage").length() * 8, 200, Messages.getString("UserInterface.DeathMessage")); //$NON-NLS-1$ //$NON-NLS-2$
+			mainFont24p
+					.drawString(
+							(Game.WIDTH / 2)
+									- Messages
+											.getString(
+													"UserInterface.DeathSubMessage").length() * 6, 275, //$NON-NLS-1$
+							Messages.getString("UserInterface.DeathSubMessage")); //$NON-NLS-1$
 			break;
 		case GAMEPLAY:
 			glDisable(GL11.GL_BLEND);
@@ -120,9 +140,9 @@ public class UserInterface {
 		case MAIN_MENU:
 			mainFont32p.drawString(
 					(Game.WIDTH / 2)
-							- Messages.getString("UserInterface.MainMenuMain")
+							- Messages.getString("UserInterface.MainMenuMain") //$NON-NLS-1$
 									.length() * 8, 200,
-					Messages.getString("UserInterface.MainMenuMain"));
+					Messages.getString("UserInterface.MainMenuMain")); //$NON-NLS-1$
 			break;
 		case PAUSED:
 			break;

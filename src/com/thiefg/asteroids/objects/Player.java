@@ -124,7 +124,7 @@ public class Player {
 				livesLeft--;
 				a.hit();
 				if (livesLeft < 0)
-					System.exit(0);
+					Game.playerDied();
 			}
 		}
 	}
