@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 
 import com.thiefg.asteroids.Game;
@@ -18,6 +19,7 @@ import com.thiefg.asteroids.subobjects.Vector2d;
 
 public class UserInterface {
 
+	private static final int MENU_OPTIONS = 2;
 	private static final boolean ALIAS_TEXT = false;
 	public static final String FONT_LOCATION_PREFIX = "res/fonts/"; //$NON-NLS-1$
 	public static final String FONT_TYPE_SUFFIX = ".ttf"; //$NON-NLS-1$
@@ -88,6 +90,11 @@ public class UserInterface {
 		case MAIN_MENU:
 			if (Input.getKeyDown(Keyboard.KEY_RETURN))
 				menuKeyPress();
+			if (Input.getKeyDown(Keyboard.KEY_DOWN)
+					&& MENU_OPTIONS - 1 > mainMenuSelectedIndex)
+				mainMenuSelectedIndex++;
+			if (Input.getKeyDown(Keyboard.KEY_UP) && mainMenuSelectedIndex > 0)
+				mainMenuSelectedIndex--;
 			break;
 		case PAUSED:
 			break;
@@ -103,8 +110,14 @@ public class UserInterface {
 	}
 
 	private void menuKeyPress() {
-		if (mainMenuSelectedIndex == 0)
+		switch (mainMenuSelectedIndex) {
+		case 0:
 			Game.setCurrentGameState(GameState.GAMEPLAY);
+			break;
+		case 1:
+			System.exit(0) ;
+			break;
+		}
 	}
 
 	public void render() {
@@ -143,6 +156,18 @@ public class UserInterface {
 							- Messages.getString("UserInterface.MainMenuMain") //$NON-NLS-1$
 									.length() * 8, 200,
 					Messages.getString("UserInterface.MainMenuMain")); //$NON-NLS-1$
+			mainFont24p
+					.drawString(
+							(Game.WIDTH / 2)
+									- Messages
+											.getString(
+													"UserInterface.MainMenuSingleplayer").length() * 6, 275, Messages.getString("UserInterface.MainMenuSingleplayer"), mainMenuSelectedIndex == 0 ? Color.red : Color.white); //$NON-NLS-1$
+			mainFont24p
+					.drawString(
+							(Game.WIDTH / 2)
+									- Messages
+											.getString(
+													"UserInterface.MainMenuExit").length() * 6, 325, Messages.getString("UserInterface.MainMenuExit"), mainMenuSelectedIndex == 1 ? Color.red : Color.white); //$NON-NLS-1$
 			break;
 		case PAUSED:
 			break;
