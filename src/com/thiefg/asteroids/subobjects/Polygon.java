@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.GL11;
 
 public class Polygon {
-	private int sides;
-	private double raduis;
 	private Vector2d location;
-	private double rotation;
 	private ArrayList<Vector2d> points;
+	private double raduis;
+	private double rotation;
+	private int sides;
 
 	public Polygon(Vector2d location, int sides, double radius) {
 		this.setLocation(location);
@@ -30,14 +30,24 @@ public class Polygon {
 		setPoints(new ArrayList<Vector2d>());
 	}
 
-	public void update() {
-		setPoints(new ArrayList<Vector2d>());
-		double innerAngle = 360d / (double) sides;
-		for (int i = 0; i < sides; i++) {
-			getPoints().add(
-					new Vector2d(location, innerAngle * (double) i
-							+ (innerAngle / 2d) + rotation, raduis));
-		}
+	public Vector2d getLocation() {
+		return location;
+	}
+
+	public ArrayList<Vector2d> getPoints() {
+		return points;
+	}
+
+	public double getRaduis() {
+		return raduis;
+	}
+
+	public double getRotation() {
+		return rotation;
+	}
+
+	public int getSides() {
+		return sides;
 	}
 
 	public void render() {
@@ -63,43 +73,33 @@ public class Polygon {
 		glEnd();
 	}
 
-	public int getSides() {
-		return sides;
-	}
-
-	public void setSides(int sides) {
-		this.sides = sides;
-	}
-
-	public Vector2d getLocation() {
-		return location;
-	}
-
 	public void setLocation(Vector2d location) {
 		this.location = location;
 	}
 
-	public double getRotation() {
-		return rotation;
-	}
-
-	public void setRotation(double rotation) {
-		this.rotation = rotation;
-	}
-
-	public double getRaduis() {
-		return raduis;
+	public void setPoints(ArrayList<Vector2d> points) {
+		this.points = points;
 	}
 
 	public void setRaduis(double raduis) {
 		this.raduis = raduis;
 	}
 
-	public ArrayList<Vector2d> getPoints() {
-		return points;
+	public void setRotation(double rotation) {
+		this.rotation = rotation;
 	}
 
-	public void setPoints(ArrayList<Vector2d> points) {
-		this.points = points;
+	public void setSides(int sides) {
+		this.sides = sides;
+	}
+
+	public void update() {
+		setPoints(new ArrayList<Vector2d>());
+		double innerAngle = 360d / sides;
+		for (int i = 0; i < sides; i++) {
+			getPoints().add(
+					new Vector2d(location, innerAngle * i
+							+ (innerAngle / 2d) + rotation, raduis));
+		}
 	}
 }

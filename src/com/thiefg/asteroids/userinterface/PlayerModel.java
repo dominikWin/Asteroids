@@ -11,14 +11,14 @@ import org.lwjgl.opengl.GL11;
 import com.thiefg.asteroids.subobjects.Vector2d;
 
 public class PlayerModel {
-	private static final int OUT_POINT_ANGLE = 135;
 	private static final int BACK_POINT_DISTANCE = 2;
 	private static final int FRONT_POINT_DISTANCE = 5;
+	private static final int OUT_POINT_ANGLE = 135;
 	private static final int OUT_POINT_DISTANCE = 4;
 	private static final int SCALE_MULTIPLYER = 3;
-	double rotation;
 	Vector2d location;
 	ArrayList<Vector2d> points;
+	double rotation;
 
 	public PlayerModel(Vector2d location, double rotation) {
 		this.location = location;
@@ -27,16 +27,16 @@ public class PlayerModel {
 		updatePoints();
 	}
 
-	public void updatePoints() {
-		points.clear();
-		points.add(new Vector2d(location, rotation, FRONT_POINT_DISTANCE
-				* SCALE_MULTIPLYER));
-		points.add(new Vector2d(location, rotation + OUT_POINT_ANGLE,
-				OUT_POINT_DISTANCE * SCALE_MULTIPLYER));
-		points.add(new Vector2d(location, rotation + 180, BACK_POINT_DISTANCE
-				* SCALE_MULTIPLYER));
-		points.add(new Vector2d(location, rotation - OUT_POINT_ANGLE,
-				OUT_POINT_DISTANCE * SCALE_MULTIPLYER));
+	public Vector2d getLocation() {
+		return location;
+	}
+
+	public ArrayList<Vector2d> getPoints() {
+		return points;
+	}
+
+	public double getRotation() {
+		return rotation;
 	}
 
 	public void render() {
@@ -61,27 +61,27 @@ public class PlayerModel {
 		glEnd();
 	}
 
-	public double getRotation() {
-		return rotation;
+	public void setLocation(Vector2d location) {
+		this.location = location;
+	}
+
+	public void setPoints(ArrayList<Vector2d> points) {
+		this.points = points;
 	}
 
 	public void setRotation(double rotation) {
 		this.rotation = rotation;
 	}
 
-	public Vector2d getLocation() {
-		return location;
-	}
-
-	public void setLocation(Vector2d location) {
-		this.location = location;
-	}
-
-	public ArrayList<Vector2d> getPoints() {
-		return points;
-	}
-
-	public void setPoints(ArrayList<Vector2d> points) {
-		this.points = points;
+	public void updatePoints() {
+		points.clear();
+		points.add(new Vector2d(location, rotation, FRONT_POINT_DISTANCE
+				* SCALE_MULTIPLYER));
+		points.add(new Vector2d(location, rotation + OUT_POINT_ANGLE,
+				OUT_POINT_DISTANCE * SCALE_MULTIPLYER));
+		points.add(new Vector2d(location, rotation + 180, BACK_POINT_DISTANCE
+				* SCALE_MULTIPLYER));
+		points.add(new Vector2d(location, rotation - OUT_POINT_ANGLE,
+				OUT_POINT_DISTANCE * SCALE_MULTIPLYER));
 	}
 }

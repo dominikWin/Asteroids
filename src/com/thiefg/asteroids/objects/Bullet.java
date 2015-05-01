@@ -8,13 +8,13 @@ import com.thiefg.asteroids.subobjects.Vector2d;
 
 public class Bullet {
 
-    private static final int SIDES = 8;
     private static final int RADIUS = 4;
-    Polygon shape;
+    private static final int SIDES = 8;
+    private boolean destroyed;
     Vector2d location;
     double rotation;
+    Polygon shape;
     int speed;
-    private boolean destroyed;
 
     public Bullet(Vector2d location, double rotation, int speed) {
 	this.location = new Vector2d(location.getX(), location.getY());
@@ -22,13 +22,6 @@ public class Bullet {
 	this.speed = speed;
 	this.setDestroyed(false);
 	shape = new Polygon(location, SIDES, RADIUS);
-    }
-
-    public void update() {
-	location = new Vector2d(location, rotation, speed);
-	shape.setLocation(location);
-	shape.update();
-	collosionTest();
     }
 
     private void collosionTest() {
@@ -43,48 +36,55 @@ public class Bullet {
 	}
     }
 
-    public void render() {
-	shape.render();
-    }
-
-    public Polygon getShape() {
-	return shape;
-    }
-
-    public void setShape(Polygon shape) {
-	this.shape = shape;
-    }
-
     public Vector2d getLocation() {
 	return location;
-    }
-
-    public void setLocation(Vector2d location) {
-	this.location = location;
     }
 
     public double getRotation() {
 	return rotation;
     }
 
-    public void setRotation(double rotation) {
-	this.rotation = rotation;
+    public Polygon getShape() {
+	return shape;
     }
 
     public int getSpeed() {
 	return speed;
     }
 
-    public void setSpeed(int speed) {
-	this.speed = speed;
-    }
-
     public boolean isDestroyed() {
 	return destroyed;
     }
 
+    public void render() {
+	shape.render();
+    }
+
     public void setDestroyed(boolean destroyed) {
 	this.destroyed = destroyed;
+    }
+
+    public void setLocation(Vector2d location) {
+	this.location = location;
+    }
+
+    public void setRotation(double rotation) {
+	this.rotation = rotation;
+    }
+
+    public void setShape(Polygon shape) {
+	this.shape = shape;
+    }
+
+    public void setSpeed(int speed) {
+	this.speed = speed;
+    }
+
+    public void update() {
+	location = new Vector2d(location, rotation, speed);
+	shape.setLocation(location);
+	shape.update();
+	collosionTest();
     }
 
 }

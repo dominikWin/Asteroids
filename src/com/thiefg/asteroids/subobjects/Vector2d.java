@@ -23,7 +23,7 @@ public class Vector2d {
 	double y = (obj.x * sin) + (obj.y * cos);
 	x += base.x;
 	y += base.y;
-	return new Vector2d((double) x, (double) y);
+	return new Vector2d(x, y);
     }
 
     public static Vector2d avarage(Vector2d obj1, Vector2d obj2) {
