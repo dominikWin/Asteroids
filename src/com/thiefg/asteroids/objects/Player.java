@@ -16,11 +16,11 @@ import com.thiefg.asteroids.subobjects.Vector2d;
 
 public class Player {
 
-	private static final int STARTING_LIVES = 3;
+	private static final int INITIAL_LIVES = 3;
 	private static final int BULLET_SPEED = 15;
-	private static final double VELOCITY_DRAG = .98;
+	private static final double VELOCITY_DRAG_MULTIPLYER = .98;
 	private static final int FIRE_DELAY_MILS = 80;
-	private static final double COLOR_SPEED = 3d;
+	private static final double COLOR_SWEEP_SPEED = 3d;
 	private static final double MOVEMENT_SPEED = .4;
 	private static final int OUT_POINT_ANGLE = 135;
 	private static final int BACK_POINT_DISTANCE = 2;
@@ -48,7 +48,7 @@ public class Player {
 		this.rotation = rotation;
 		points = new ArrayList<Vector2d>();
 		gunModifier = GunModifier.SINGLE;
-		setLivesLeft(STARTING_LIVES);
+		setLivesLeft(INITIAL_LIVES);
 		updatePoints();
 	}
 
@@ -92,7 +92,7 @@ public class Player {
 		if (Input.getKey(Keyboard.KEY_SPACE))
 			fireRequest();
 
-		velocity.multiply(VELOCITY_DRAG);
+		velocity.multiply(VELOCITY_DRAG_MULTIPLYER);
 
 		if (Vector2d.distance(velocity, new Vector2d(0, 0)) > MAX_MOVEMENT_SPEED) {
 			double multiplyer = MAX_MOVEMENT_SPEED
@@ -221,11 +221,11 @@ public class Player {
 	public void render() {
 		GL11.glColor3d(
 				(Math.sin((double) System.currentTimeMillis()
-						/ (1000d / COLOR_SPEED)) + 1d) / 2d,
+						/ (1000d / COLOR_SWEEP_SPEED)) + 1d) / 2d,
 				(Math.sin((double) System.currentTimeMillis()
-						/ (1000d / COLOR_SPEED) + (Math.PI * (2d / 3d))) + 1d) / 2d,
+						/ (1000d / COLOR_SWEEP_SPEED) + (Math.PI * (2d / 3d))) + 1d) / 2d,
 				(Math.sin((double) System.currentTimeMillis()
-						/ (1000d / COLOR_SPEED) + (Math.PI * (4d / 3d))) + 1d) / 2d);
+						/ (1000d / COLOR_SWEEP_SPEED) + (Math.PI * (4d / 3d))) + 1d) / 2d);
 		glBegin(GL11.GL_LINES);
 		for (int i = 0; i < points.size() - 1; i++) {
 			glVertex2i((int) (points.get(i).getX()),

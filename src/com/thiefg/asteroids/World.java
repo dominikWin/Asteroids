@@ -7,7 +7,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.thiefg.asteroids.objects.Asteroid;
 import com.thiefg.asteroids.objects.Bullet;
-import com.thiefg.asteroids.objects.Enemy;
 import com.thiefg.asteroids.objects.Player;
 import com.thiefg.asteroids.subobjects.Vector2d;
 
@@ -16,13 +15,11 @@ public class World {
 
 	private static final double MIN_ASTEROID_DISTANCE_TO_PLAYER = 100;
 	private Player player;
-	private ArrayList<Enemy> enemys = new ArrayList<Enemy>();
 	private ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
 	public World() {
 		player = new Player(new Vector2d(Game.WIDTH / 2, Game.HEIGHT / 2), 0);
-		enemys = new ArrayList<Enemy>();
 		asteroids = new ArrayList<Asteroid>();
 		bullets = new ArrayList<Bullet>();
 	}
@@ -34,8 +31,6 @@ public class World {
 		}
 		for (Bullet b : bullets)
 			b.render();
-		for (Enemy e : enemys)
-			e.render();
 		player.render();
 	}
 
@@ -47,8 +42,6 @@ public class World {
 			b.update();
 		removeOffScreenBullets();
 		removeDestroyedBullets();
-		for (Enemy e : enemys)
-			e.update();
 		player.update();
 	}
 
@@ -107,14 +100,6 @@ public class World {
 
 	public void setPlayer(Player player) {
 		this.player = player;
-	}
-
-	public ArrayList<Enemy> getEnemys() {
-		return enemys;
-	}
-
-	public void setEnemys(ArrayList<Enemy> enemys) {
-		this.enemys = enemys;
 	}
 
 	public ArrayList<Asteroid> getAsteroids() {

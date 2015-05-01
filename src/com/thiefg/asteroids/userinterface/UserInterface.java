@@ -19,15 +19,11 @@ import com.thiefg.asteroids.subobjects.Vector2d;
 
 public class UserInterface {
 
-	private static final int MENU_OPTIONS = 2;
-	private static final boolean ALIAS_TEXT = false;
+	private static final int MENU_OPTION_COUNT = 2;
+	private static final boolean ANTIALIAS_TEXT = false;
 	public static final String FONT_LOCATION_PREFIX = "res/fonts/"; //$NON-NLS-1$
 	public static final String FONT_TYPE_SUFFIX = ".ttf"; //$NON-NLS-1$
 	public static final String FONT_BITWISE = "bitwise"; //$NON-NLS-1$
-	public static final String FONT_CIRCUT = "circut"; //$NON-NLS-1$
-	public static final String FONT_DIGITAL = "digital"; //$NON-NLS-1$
-	public static final String FONT_DIGITALE = "digitale"; //$NON-NLS-1$
-	public static final String FONT_TRANSISTOR = "transistor"; //$NON-NLS-1$
 
 	int round;
 	int livesLeft;
@@ -46,7 +42,7 @@ public class UserInterface {
 					+ FONT_BITWISE + FONT_TYPE_SUFFIX);
 			Font tmpFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			tmpFont = tmpFont.deriveFont(24f); // set font size
-			mainFont24p = new TrueTypeFont(tmpFont, ALIAS_TEXT);
+			mainFont24p = new TrueTypeFont(tmpFont, ANTIALIAS_TEXT);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,7 +51,7 @@ public class UserInterface {
 					+ FONT_BITWISE + FONT_TYPE_SUFFIX);
 			Font tmpFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			tmpFont = tmpFont.deriveFont(32f); // set font size
-			mainFont32p = new TrueTypeFont(tmpFont, ALIAS_TEXT);
+			mainFont32p = new TrueTypeFont(tmpFont, ANTIALIAS_TEXT);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -93,7 +89,7 @@ public class UserInterface {
 			if (Input.getKeyDown(Keyboard.KEY_RETURN))
 				menuKeyPress();
 			if (Input.getKeyDown(Keyboard.KEY_DOWN)
-					&& MENU_OPTIONS - 1 > mainMenuSelectedIndex)
+					&& MENU_OPTION_COUNT - 1 > mainMenuSelectedIndex)
 				mainMenuSelectedIndex++;
 			if (Input.getKeyDown(Keyboard.KEY_UP) && mainMenuSelectedIndex > 0)
 				mainMenuSelectedIndex--;
