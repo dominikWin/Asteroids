@@ -158,8 +158,7 @@ public class Game {
 
 	public static void setCurrentGameState(GameState currentGameState) {
 		Game.currentGameState = currentGameState;
-		if (currentGameState == GameState.GAMEPLAY)
-			Game.gameStart();
+		Game.gameStart();
 	}
 
 	public static Background getBackground() {

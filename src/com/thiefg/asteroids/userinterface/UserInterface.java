@@ -86,6 +86,8 @@ public class UserInterface {
 			if (System.currentTimeMillis() > messageEndTime) {
 				message = ""; //$NON-NLS-1$
 			}
+			if(Input.getKeyDown(Keyboard.KEY_ESCAPE))
+				pause();
 			break;
 		case MAIN_MENU:
 			if (Input.getKeyDown(Keyboard.KEY_RETURN))
@@ -95,14 +97,26 @@ public class UserInterface {
 				mainMenuSelectedIndex++;
 			if (Input.getKeyDown(Keyboard.KEY_UP) && mainMenuSelectedIndex > 0)
 				mainMenuSelectedIndex--;
+			
 			break;
 		case PAUSED:
+			if(Input.getKeyDown(Keyboard.KEY_ESCAPE))
+				unpause();
 			break;
 		default:
 			break;
 
 		}
 
+	}
+
+	private void unpause() {
+		Game.setCurrentGameState(GameState.GAMEPLAY);
+	}
+
+	private void pause() {
+		Game.setCurrentGameState(GameState.PAUSED);
+		System.out.println("Paused");
 	}
 
 	private void deathKeyPress() {
@@ -170,6 +184,7 @@ public class UserInterface {
 													"UserInterface.MainMenuExit").length() * 6, 325, Messages.getString("UserInterface.MainMenuExit"), mainMenuSelectedIndex == 1 ? Color.red : Color.white); //$NON-NLS-1$
 			break;
 		case PAUSED:
+			mainFont32p.drawString(100, 100, "Paused");
 			break;
 		default:
 			break;

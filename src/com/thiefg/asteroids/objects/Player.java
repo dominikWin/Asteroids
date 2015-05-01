@@ -122,7 +122,7 @@ public class Player {
 					+ SCALE_MULTIPLYER
 					&& !a.isDestroyed()) {
 				livesLeft--;
-				a.hit();
+				a.setDestroyed(true);
 				if (livesLeft < 0)
 					Game.playerDied();
 			}
