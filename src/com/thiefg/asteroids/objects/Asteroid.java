@@ -11,7 +11,7 @@ public class Asteroid {
 		while (true) {
 			Vector2d loc = new Vector2d(Math.random() * Game.WIDTH,
 					Math.random() * Game.HEIGHT);
-			if (Vector2d.distance(loc, Game.getWorld().getPlayer()
+			if (Vector2d.distance(loc, Game.getInstance().getWorld().getPlayer()
 					.getLocation()) > Game.WIDTH / 6)
 				return loc;
 		}
@@ -99,13 +99,13 @@ public class Asteroid {
 		destroyed = true;
 		if (size <= SMALLEST_SIZE)
 			return;
-		Game.getWorld().addAsteroid(
+		Game.getInstance().getWorld().addAsteroid(
 				new Asteroid(new Vector2d(location.getX(), location.getY()),
 						Math.random() * 360, rotationSpeed, size / 2));
-		Game.getWorld().addAsteroid(
+		Game.getInstance().getWorld().addAsteroid(
 				new Asteroid(new Vector2d(location.getX(), location.getY()),
 						Math.random() * 360, rotationSpeed, size / 2));
-		Game.getWorld().asteroidAddChance += .0002;
+		Game.getInstance().getWorld().asteroidAddChance += .0002;
 	}
 
 	public boolean isDestroyed() {

@@ -33,10 +33,10 @@ public class Progress {
 	private void endRound() {
 		startNextRoundTime = INIT_DELAY + System.currentTimeMillis();
 		stage = ProgressState.WAIT_INIT;
-		Game.getWorld()
+		Game.getInstance().getWorld()
 				.getPlayer()
 				.setLivesLeft(
-						Game.getWorld().getPlayer().getLivesLeft()
+						Game.getInstance().getWorld().getPlayer().getLivesLeft()
 								+ PER_ROUND_LIFE_BOOST);
 	}
 
@@ -117,7 +117,7 @@ public class Progress {
 		round++;
 		stage = ProgressState.WAIT_PLAYER;
 		for (int i = 0; i < getNextRoundAsteroidCount(); i++) {
-			Game.getWorld().addAsteroid(
+			Game.getInstance().getWorld().addAsteroid(
 					new Asteroid(Asteroid.getRandomLocation()));
 		}
 	}
@@ -127,45 +127,45 @@ public class Progress {
 		case WAIT_INIT:
 			if (System.currentTimeMillis() > startNextRoundTime)
 				startRound();
-			Game.getUi().setMessage(
+			Game.getInstance().getUi().setMessage(
 					"Next round in " + secsToNextRound + " seconds!", 50);
 			break;
 		case WAIT_PLAYER:
-			if (Game.getWorld().getAsteroids().isEmpty())
+			if (Game.getInstance().getWorld().getAsteroids().isEmpty())
 				endRound();
-			if (Game.getWorld().getPlayer().getScore() > 1000
+			if (Game.getInstance().getWorld().getPlayer().getScore() > 1000
 					&& !fastGunUnlocked) {
 				fastGunUnlocked = true;
-				Game.getWorld().getPlayer().setGunModifier(GunModifier.FAST);
-				Game.getUi().setMessage("Fast gun unlocked!",
+				Game.getInstance().getWorld().getPlayer().setGunModifier(GunModifier.FAST);
+				Game.getInstance().getUi().setMessage("Fast gun unlocked!",
 						UNLOCK_MESSAGE_TIME);
 			}
-			if (Game.getWorld().getPlayer().getScore() > 2000
+			if (Game.getInstance().getWorld().getPlayer().getScore() > 2000
 					&& !dualGunUnlocked) {
 				dualGunUnlocked = true;
-				Game.getWorld().getPlayer().setGunModifier(GunModifier.DUAL);
-				Game.getUi().setMessage("Dual gun unlocked!",
+				Game.getInstance().getWorld().getPlayer().setGunModifier(GunModifier.DUAL);
+				Game.getInstance().getUi().setMessage("Dual gun unlocked!",
 						UNLOCK_MESSAGE_TIME);
 			}
-			if (Game.getWorld().getPlayer().getScore() > 5000
+			if (Game.getInstance().getWorld().getPlayer().getScore() > 5000
 					&& !trippleGunUnlocked) {
 				trippleGunUnlocked = true;
-				Game.getWorld().getPlayer().setGunModifier(GunModifier.TRIPLE);
-				Game.getUi().setMessage("Tripple gun unlocked",
+				Game.getInstance().getWorld().getPlayer().setGunModifier(GunModifier.TRIPLE);
+				Game.getInstance().getUi().setMessage("Tripple gun unlocked",
 						UNLOCK_MESSAGE_TIME);
 			}
-			if (Game.getWorld().getPlayer().getScore() > 10000
+			if (Game.getInstance().getWorld().getPlayer().getScore() > 10000
 					&& !quadGunUnlocked) {
 				quadGunUnlocked = true;
-				Game.getWorld().getPlayer().setGunModifier(GunModifier.QUAD);
-				Game.getUi().setMessage("Quad gun unlocked",
+				Game.getInstance().getWorld().getPlayer().setGunModifier(GunModifier.QUAD);
+				Game.getInstance().getUi().setMessage("Quad gun unlocked",
 						UNLOCK_MESSAGE_TIME);
 			}
-			if (Game.getWorld().getPlayer().getScore() > 25000
+			if (Game.getInstance().getWorld().getPlayer().getScore() > 25000
 					&& !octGunUnlocked) {
 				octGunUnlocked = true;
-				Game.getWorld().getPlayer().setGunModifier(GunModifier.OCT);
-				Game.getUi()
+				Game.getInstance().getWorld().getPlayer().setGunModifier(GunModifier.OCT);
+				Game.getInstance().getUi()
 						.setMessage("Oct gun unlocked", UNLOCK_MESSAGE_TIME);
 			}
 			break;

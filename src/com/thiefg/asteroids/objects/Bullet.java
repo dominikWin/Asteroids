@@ -25,13 +25,13 @@ public class Bullet {
     }
 
     private void collosionTest() {
-	ArrayList<Asteroid> asteroids = Game.getWorld().getAsteroids();
+	ArrayList<Asteroid> asteroids = Game.getInstance().getWorld().getAsteroids();
 	for (int i = 0; i < asteroids.size(); i++) {
 	    Asteroid a = asteroids.get(i);
 	    if (Vector2d.distance(a.getLocation(), location) < a.getSize()) {
 		a.hit();
 		setDestroyed(true);
-		Game.getWorld().getPlayer().addScore(a.getSize());
+		Game.getInstance().getWorld().getPlayer().addScore(a.getSize());
 	    }
 	}
     }

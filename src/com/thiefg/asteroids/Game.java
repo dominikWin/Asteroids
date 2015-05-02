@@ -22,96 +22,32 @@ public class Game {
 	DEATH, GAMEPLAY, MAIN_MENU, PAUSED;
     }
 
-    private static Background background;
-    private static GameState currentGameState = GameState.MAIN_MENU;
     public static boolean devMode = false;
     public static int FRAME_CAP = Display.getDesktopDisplayMode()
 	    .getFrequency();
     private static boolean FULLSCREEN = true;
     private static Game game;
     public static int HEIGHT = Display.getDesktopDisplayMode().getHeight();
-    private static Progress progress;
-    private static UserInterface ui;
     private static boolean VSYNC = true;
     public static int WIDTH = Display.getDesktopDisplayMode().getWidth();
-    private static World world;
 
-    public static void exit() {
-	System.exit(0);
-    }
-
-    public static void gameStart() {
-	progress.init();
-    }
-
-    public static Background getBackground() {
-	return background;
-    }
-
-    public static GameState getCurrentGameState() {
-	return currentGameState;
-    }
-
-    private static Game getInstance() {
+    public static Game getInstance() {
 	if (game == null)
 	    game = new Game();
 	return game;
-    }
-
-    public static Progress getProgress() {
-	return progress;
-    }
-
-    public static UserInterface getUi() {
-	return ui;
-    }
-
-    public static World getWorld() {
-	return world;
     }
 
     public static void main(String[] args) throws LWJGLException {
 	Game.getInstance();
     }
 
-    public static void pause() {
-	Game.setCurrentGameState(GameState.PAUSED);
-    }
+    private Background background;
+    private GameState currentGameState = GameState.MAIN_MENU;
+    private Progress progress;
 
-    public static void playerDied() {
-	currentGameState = GameState.DEATH;
-    }
+    private UserInterface ui;
 
-    public static void resetGame() {
-	currentGameState = GameState.MAIN_MENU;
-	setWorld(new World());
-	progress = new Progress();
-    }
-
-    public static void setBackground(Background background) {
-	Game.background = background;
-    }
-
-    public static void setCurrentGameState(GameState currentGameState) {
-	Game.currentGameState = currentGameState;
-	Game.gameStart();
-    }
-
-    public static void setProgress(Progress progress) {
-	Game.progress = progress;
-    }
-
-    public static void setUi(UserInterface ui) {
-	Game.ui = ui;
-    }
-
-    public static void setWorld(World world) {
-	Game.world = world;
-    }
-
-    public static void unpause() {
-	Game.setCurrentGameState(GameState.GAMEPLAY);
-    }
+    private World world;
 
     public Game() {
 	try {
@@ -136,6 +72,34 @@ public class Game {
 	start();
     }
 
+    public void exit() {
+	System.exit(0);
+    }
+
+    public void gameStart() {
+	progress.init();
+    }
+
+    public Background getBackground() {
+	return background;
+    }
+
+    public GameState getCurrentGameState() {
+	return currentGameState;
+    }
+
+    public Progress getProgress() {
+	return progress;
+    }
+
+    public UserInterface getUi() {
+	return ui;
+    }
+
+    public World getWorld() {
+	return world;
+    }
+
     private void init() {
 	GL11.glEnable(GL11.GL_TEXTURE_2D);
 	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -151,11 +115,46 @@ public class Game {
 	Input.showMouse(false);
     }
 
+    public void pause() {
+	setCurrentGameState(GameState.PAUSED);
+    }
+
+    public void playerDied() {
+	currentGameState = GameState.DEATH;
+    }
+
     private void render() {
 	background.render();
 	if (currentGameState == GameState.GAMEPLAY)
 	    world.render();
 	ui.render();
+    }
+
+    public void resetGame() {
+	currentGameState = GameState.MAIN_MENU;
+	setWorld(new World());
+	progress = new Progress();
+    }
+
+    public void setBackground(Background background) {
+	this.background = background;
+    }
+
+    public void setCurrentGameState(GameState currentGameState) {
+	this.currentGameState = currentGameState;
+	gameStart();
+    }
+
+    public void setProgress(Progress progress) {
+	this.progress = progress;
+    }
+
+    public void setUi(UserInterface ui) {
+	this.ui = ui;
+    }
+
+    public void setWorld(World world) {
+	this.world = world;
     }
 
     private void start() {
@@ -169,6 +168,10 @@ public class Game {
 	}
 	Display.destroy();
 	System.exit(0);
+    }
+
+    public void unpause() {
+	this.setCurrentGameState(GameState.GAMEPLAY);
     }
 
     private void update() {
