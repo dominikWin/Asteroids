@@ -16,7 +16,7 @@ import com.thiefg.asteroids.input.Input;
 import com.thiefg.asteroids.userinterface.Background;
 import com.thiefg.asteroids.userinterface.UserInterface;
 
-public class Game {
+public class Game implements Runnable {
 
     public enum GameState {
 	DEATH, GAMEPLAY, MAIN_MENU, PAUSED;
@@ -26,19 +26,20 @@ public class Game {
     public static int FRAME_CAP = Display.getDesktopDisplayMode()
 	    .getFrequency();
     private static boolean FULLSCREEN = true;
-    private static Game game;
+    private static Game instance;
     public static int HEIGHT = Display.getDesktopDisplayMode().getHeight();
     private static boolean VSYNC = true;
     public static int WIDTH = Display.getDesktopDisplayMode().getWidth();
 
     public static Game getInstance() {
-	if (game == null)
-	    game = new Game();
-	return game;
+	if (Game.instance == null) {
+	    Game.instance = new Game();
+	}
+	return Game.instance;
     }
 
     public static void main(String[] args) throws LWJGLException {
-	Game.getInstance();
+	new Thread(getInstance()).start();
     }
 
     private Background background;
@@ -50,26 +51,7 @@ public class Game {
     private World world;
 
     public Game() {
-	try {
-	    Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode());
-	    Display.setFullscreen(FULLSCREEN);
-	    Display.setVSyncEnabled(VSYNC);
-	    Display.setResizable(false);
-	    WIDTH = Display.getDisplayMode().getWidth();
-	    HEIGHT = Display.getDisplayMode().getHeight();
-	    FRAME_CAP = Display.getDisplayMode().getFrequency();
-	    System.out.println(Display.getDisplayMode());
-	} catch (LWJGLException e) {
-	    e.printStackTrace();
-	}
-	;
-	try {
-	    Display.create();
-	} catch (LWJGLException e) {
-	    e.printStackTrace();
-	}
-	init();
-	start();
+
     }
 
     public void exit() {
@@ -108,7 +90,7 @@ public class Game {
 	glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
 	glMatrixMode(GL_MODELVIEW);
 	Input.update();
-	setWorld(new World());
+	world = new World();
 	ui = new UserInterface();
 	progress = new Progress();
 	background = new Background();
@@ -157,7 +139,26 @@ public class Game {
 	this.world = world;
     }
 
-    private void start() {
+    public void run() {
+	try {
+	    Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode());
+	    Display.setFullscreen(FULLSCREEN);
+	    Display.setVSyncEnabled(VSYNC);
+	    Display.setResizable(false);
+	    WIDTH = Display.getDisplayMode().getWidth();
+	    HEIGHT = Display.getDisplayMode().getHeight();
+	    FRAME_CAP = Display.getDisplayMode().getFrequency();
+	    System.out.println(Display.getDisplayMode());
+	} catch (LWJGLException e) {
+	    e.printStackTrace();
+	}
+	;
+	try {
+	    Display.create();
+	} catch (LWJGLException e) {
+	    e.printStackTrace();
+	}
+	init();
 	while (!Display.isCloseRequested()) {
 	    update();
 	    render();

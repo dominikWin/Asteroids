@@ -71,16 +71,15 @@ public class UserInterface {
 	    e.printStackTrace();
 	}
 	round = 0;
-	livesLeft = Game.getWorld().getPlayer().getLivesLeft();
-	score = Game.getWorld().getPlayer().getScore();
 	playerModels = new ArrayList<PlayerModel>();
 	message = ""; //$NON-NLS-1$
 	messageEndTime = 0;
+	livesLeft = 0;
 	setMainMenuSelectedIndex(0);
     }
 
     private void deathKeyPress() {
-	Game.resetGame();
+	Game.getInstance().resetGame();
     }
 
     public int getMainMenuSelectedIndex() {
@@ -90,10 +89,10 @@ public class UserInterface {
     private void menuKeyPress() {
 	switch (mainMenuSelectedIndex) {
 	case 0:
-	    Game.setCurrentGameState(GameState.GAMEPLAY);
+	    Game.getInstance().setCurrentGameState(GameState.GAMEPLAY);
 	    break;
 	case 1:
-	    Game.exit();
+	    Game.getInstance().exit();
 	    break;
 	}
     }
@@ -101,13 +100,13 @@ public class UserInterface {
     public void render() {
 	glEnable(GL11.GL_BLEND);
 
-	switch (Game.getCurrentGameState()) {
+	switch (Game.getInstance().getCurrentGameState()) {
 	case DEATH:
 	    mainFont32p.drawString((Game.WIDTH / 2) - DEATH_MESSAGE.length()
-		    * 8, 200, DEATH_MESSAGE); 
+		    * 8, 200, DEATH_MESSAGE);
 	    mainFont24p.drawString(
-		    (Game.WIDTH / 2) - DEATH_SUB_MESSAGE.length() * 6, 275, 
-		    DEATH_SUB_MESSAGE); 
+		    (Game.WIDTH / 2) - DEATH_SUB_MESSAGE.length() * 6, 275,
+		    DEATH_SUB_MESSAGE);
 	    break;
 	case GAMEPLAY:
 	    for (PlayerModel pm : playerModels)
@@ -122,20 +121,20 @@ public class UserInterface {
 	case MAIN_MENU:
 	    mainFont32p.drawString(
 		    (Game.WIDTH / 2) - MENU_MENU_TITLE_MESSAGE.length() * 8,
-		    200, MENU_MENU_TITLE_MESSAGE); 
+		    200, MENU_MENU_TITLE_MESSAGE);
 	    mainFont24p.drawString((Game.WIDTH / 2)
 		    - MAIN_MENU_SINGLEPLAYER_MESSAGE.length() * 6, 275,
 		    MAIN_MENU_SINGLEPLAYER_MESSAGE,
 		    mainMenuSelectedIndex == 0 ? MAIN_MENU_SELECTED_COLOR
-			    : Color.white); 
+			    : Color.white);
 	    mainFont24p.drawString(
 		    (Game.WIDTH / 2) - MAIN_MENU_EXIT_MESSAGE.length() * 6,
 		    325, MAIN_MENU_EXIT_MESSAGE,
 		    mainMenuSelectedIndex == 1 ? MAIN_MENU_SELECTED_COLOR
-			    : Color.white); 
+			    : Color.white);
 	    break;
 	case PAUSED:
-	    mainFont32p.drawString(100, 100, PAUSE_MENU_TEXT); 
+	    mainFont32p.drawString(100, 100, PAUSE_MENU_TEXT);
 	    break;
 	default:
 	    break;
@@ -155,25 +154,30 @@ public class UserInterface {
     }
 
     public void update() {
-	switch (Game.getCurrentGameState()) {
+	switch (Game.getInstance().getCurrentGameState()) {
 	case DEATH:
 	    if (Input.getKeyDown(Keyboard.KEY_RETURN))
 		deathKeyPress();
 	    break;
 	case GAMEPLAY:
-	    round = Game.getProgress().getRound();
-	    livesLeft = Game.getWorld().getPlayer().getLivesLeft();
-	    score = Game.getWorld().getPlayer().getScore();
-	    playerModels.clear();
-	    for (int i = 0; i < livesLeft; i++) {
-		playerModels.add(new PlayerModel(
-			new Vector2d(100 + 25 * i, 150), 270));
+	    round = Game.getInstance().getProgress().getRound();
+	    score = Game.getInstance().getWorld().getPlayer().getScore();
+	    if (livesLeft != Game.getInstance().getWorld().getPlayer()
+		    .getLivesLeft()) {
+		livesLeft = Game.getInstance().getWorld().getPlayer()
+			.getLivesLeft();
+		playerModels.clear();
+		for (int i = 0; i < livesLeft; i++) {
+		    playerModels.add(new PlayerModel(new Vector2d(100 + 25 * i,
+			    150), 270));
+		}
 	    }
+
 	    if (System.currentTimeMillis() > messageEndTime) {
 		message = ""; //$NON-NLS-1$
 	    }
 	    if (Input.getKeyDown(Keyboard.KEY_ESCAPE))
-		Game.pause();
+		Game.getInstance().pause();
 	    break;
 	case MAIN_MENU:
 	    if (Input.getKeyDown(Keyboard.KEY_RETURN))
@@ -187,12 +191,12 @@ public class UserInterface {
 	    break;
 	case PAUSED:
 	    if (Input.getKeyDown(Keyboard.KEY_ESCAPE))
-		Game.unpause();
+		Game.getInstance().unpause();
 	    break;
 	default:
 	    break;
 
 	}
-
+	System.out.println(livesLeft);
     }
 }

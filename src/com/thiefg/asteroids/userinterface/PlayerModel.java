@@ -53,6 +53,8 @@ public class PlayerModel {
 				(int) (points.get(points.size() - 1).getY()));
 		glEnd();
 		GL11.glColor3d(1d, 1d, 1d);
+		
+		System.out.println("Render " + location);
 	}
 
 	public void renderPoint() {
