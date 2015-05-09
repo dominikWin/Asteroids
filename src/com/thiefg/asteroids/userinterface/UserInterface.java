@@ -74,7 +74,6 @@ public class UserInterface {
 	playerModels = new ArrayList<PlayerModel>();
 	message = ""; //$NON-NLS-1$
 	messageEndTime = 0;
-	livesLeft = 0;
 	setMainMenuSelectedIndex(0);
     }
 
@@ -109,6 +108,7 @@ public class UserInterface {
 		    DEATH_SUB_MESSAGE);
 	    break;
 	case GAMEPLAY:
+	    glDisable(GL11.GL_BLEND);
 	    for (PlayerModel pm : playerModels)
 		pm.render();
 	    glEnable(GL11.GL_BLEND);

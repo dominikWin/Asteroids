@@ -66,7 +66,7 @@ public class Input {
     public static void showMouse(boolean show) {
 	Mouse.setGrabbed(true);
     }
-    
+
     public static void update() {
 	upKeys.clear();
 	for (int i = 0; i < NUM_KEYCODES; i++) {

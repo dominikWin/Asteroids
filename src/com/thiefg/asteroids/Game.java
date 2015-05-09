@@ -139,6 +139,7 @@ public class Game implements Runnable {
 	this.world = world;
     }
 
+    @Override
     public void run() {
 	try {
 	    Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode());

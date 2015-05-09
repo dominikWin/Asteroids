@@ -25,7 +25,8 @@ public class Bullet {
     }
 
     private void collosionTest() {
-	ArrayList<Asteroid> asteroids = Game.getInstance().getWorld().getAsteroids();
+	ArrayList<Asteroid> asteroids = Game.getInstance().getWorld()
+		.getAsteroids();
 	for (int i = 0; i < asteroids.size(); i++) {
 	    Asteroid a = asteroids.get(i);
 	    if (Vector2d.distance(a.getLocation(), location) < a.getSize()) {
