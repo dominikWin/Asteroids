@@ -28,6 +28,7 @@ public class Player {
 	private static final int SCALE_MULTIPLYER = 5;
 	private static final double TRIPLE_GUN_ANGLE = 10;
 	private static final double VELOCITY_DRAG_MULTIPLYER = .98;
+	private static final boolean COLOR_SWEEP = false;
 	private GunModifier gunModifier;
 	long lastFire = 0;
 	private int livesLeft;
@@ -135,6 +136,7 @@ public class Player {
 	}
 
 	public void render() {
+		if(COLOR_SWEEP)
 		GL11.glColor3d((Math.sin(System.currentTimeMillis() / (1000d / Player.COLOR_SWEEP_SPEED)) + 1d) / 2d,
 				(Math.sin((System.currentTimeMillis() / (1000d / Player.COLOR_SWEEP_SPEED)) + (Math.PI * (2d / 3d))) + 1d) / 2d,
 				(Math.sin((System.currentTimeMillis() / (1000d / Player.COLOR_SWEEP_SPEED)) + (Math.PI * (4d / 3d))) + 1d) / 2d);
