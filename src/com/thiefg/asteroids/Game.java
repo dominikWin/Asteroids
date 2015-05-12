@@ -4,6 +4,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
+import com.thiefg.asteroids.development.ConsoleThread;
 import com.thiefg.asteroids.input.Input;
 import com.thiefg.asteroids.userinterface.Background;
 import com.thiefg.asteroids.userinterface.UserInterface;
@@ -13,22 +14,23 @@ public class Game implements Runnable {
 		DEATH, GAMEPLAY, MAIN_MENU, PAUSED;
 	}
 
+	public static Game getInstance() {
+		if (Game.instance == null) Game.instance = new Game();
+		return Game.instance;
+	}
+	public static void main(String[] args) throws LWJGLException {
+		new Thread(Game.getInstance()).start();
+	}
 	public static boolean devMode = false;
 	public static int FRAME_CAP = Display.getDesktopDisplayMode().getFrequency();
 	private static boolean FULLSCREEN = true;
 	public static int HEIGHT = Display.getDesktopDisplayMode().getHeight();
 	private static Game instance;
 	private static boolean VSYNC = true;
+
 	public static int WIDTH = Display.getDesktopDisplayMode().getWidth();
 
-	public static Game getInstance() {
-		if (Game.instance == null) Game.instance = new Game();
-		return Game.instance;
-	}
-
-	public static void main(String[] args) throws LWJGLException {
-		new Thread(Game.getInstance()).start();
-	}
+	public ConsoleThread console;
 
 	private Background background;
 	private GameState currentGameState = GameState.MAIN_MENU;
@@ -104,6 +106,8 @@ public class Game implements Runnable {
 
 	@Override
 	public void run() {
+		console = new ConsoleThread();
+		console.start();
 		try {
 			Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode());
 			Display.setFullscreen(Game.FULLSCREEN);
