@@ -4,7 +4,6 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
-import com.thiefg.asteroids.development.ConsoleThread;
 import com.thiefg.asteroids.input.Input;
 import com.thiefg.asteroids.userinterface.Background;
 import com.thiefg.asteroids.userinterface.UserInterface;
@@ -32,7 +31,6 @@ public class Game implements Runnable {
 
 	private Background background;
 
-	public ConsoleThread console;
 	private GameState currentGameState = GameState.MAIN_MENU;
 	private Progress progress;
 	private UserInterface ui;
@@ -106,8 +104,6 @@ public class Game implements Runnable {
 
 	@Override
 	public void run() {
-		console = new ConsoleThread();
-		console.start();
 		try {
 			Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode());
 			Display.setFullscreen(Game.FULLSCREEN);
