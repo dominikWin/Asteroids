@@ -100,7 +100,8 @@ public class Player {
 
 	private void fireRequest() {
 		long current = System.currentTimeMillis();
-		if (lastFire < (current - (getGunModifier() == GunModifier.FAST || getGunModifier() == GunModifier.FAST_OCT ? Player.FIRE_DELAY_FAST_MILS : Player.FIRE_DELAY_MILS))) {
+		if (lastFire < (current - ((getGunModifier() == GunModifier.FAST) || (getGunModifier() == GunModifier.FAST_OCT) ? Player.FIRE_DELAY_FAST_MILS
+				: Player.FIRE_DELAY_MILS))) {
 			lastFire = current;
 			fire();
 		}
@@ -135,10 +136,10 @@ public class Player {
 	}
 
 	public void render() {
-		if(COLOR_SWEEP)
-		GL11.glColor3d((Math.sin(System.currentTimeMillis() / (1000d / Player.COLOR_SWEEP_SPEED)) + 1d) / 2d,
-				(Math.sin((System.currentTimeMillis() / (1000d / Player.COLOR_SWEEP_SPEED)) + (Math.PI * (2d / 3d))) + 1d) / 2d,
-				(Math.sin((System.currentTimeMillis() / (1000d / Player.COLOR_SWEEP_SPEED)) + (Math.PI * (4d / 3d))) + 1d) / 2d);
+		if (Player.COLOR_SWEEP)
+			GL11.glColor3d((Math.sin(System.currentTimeMillis() / (1000d / Player.COLOR_SWEEP_SPEED)) + 1d) / 2d,
+					(Math.sin((System.currentTimeMillis() / (1000d / Player.COLOR_SWEEP_SPEED)) + (Math.PI * (2d / 3d))) + 1d) / 2d,
+					(Math.sin((System.currentTimeMillis() / (1000d / Player.COLOR_SWEEP_SPEED)) + (Math.PI * (4d / 3d))) + 1d) / 2d);
 		GL11.glBegin(GL11.GL_LINES);
 		for (int i = 0; i < (points.size() - 1); i++) {
 			GL11.glVertex2i((int) (points.get(i).getX()), (int) (points.get(i).getY()));
@@ -196,18 +197,18 @@ public class Player {
 		if (Input.getKey(Keyboard.KEY_LEFT)) rotation -= 5;
 		if (Input.getKey(Keyboard.KEY_RIGHT)) rotation += 5;
 		if (Input.getKey(Keyboard.KEY_W))
-			// location = new Vector2d(location, rotation, MOVEMENT_SPEED);
-			velocity.add(new Vector2d(new Vector2d(0, 0), rotation, Player.MOVEMENT_SPEED));
+		// location = new Vector2d(location, rotation, MOVEMENT_SPEED);
+		velocity.add(new Vector2d(new Vector2d(0, 0), rotation, Player.MOVEMENT_SPEED));
 		else if (Input.getKey(Keyboard.KEY_S))
-			// location = new Vector2d(location, rotation + 180,
-			// MOVEMENT_SPEED);
-			velocity.add(new Vector2d(new Vector2d(0, 0), rotation + 180, Player.MOVEMENT_SPEED));
+		// location = new Vector2d(location, rotation + 180,
+		// MOVEMENT_SPEED);
+		velocity.add(new Vector2d(new Vector2d(0, 0), rotation + 180, Player.MOVEMENT_SPEED));
 		else if (Input.getKey(Keyboard.KEY_D))
-			// location = new Vector2d(location, rotation + 90, MOVEMENT_SPEED);
-			velocity.add(new Vector2d(new Vector2d(0, 0), rotation + 90, Player.HORIZONTAL_MOVEMENT_SPEED));
+		// location = new Vector2d(location, rotation + 90, MOVEMENT_SPEED);
+		velocity.add(new Vector2d(new Vector2d(0, 0), rotation + 90, Player.HORIZONTAL_MOVEMENT_SPEED));
 		else if (Input.getKey(Keyboard.KEY_A))
-			// location = new Vector2d(location, rotation + 270,
-			// MOVEMENT_SPEED);
+		// location = new Vector2d(location, rotation + 270,
+		// MOVEMENT_SPEED);
 			velocity.add(new Vector2d(new Vector2d(0, 0), rotation + 270, Player.HORIZONTAL_MOVEMENT_SPEED));
 		if (Input.getKey(Keyboard.KEY_SPACE)) fireRequest();
 		velocity.multiply(Player.VELOCITY_DRAG_MULTIPLYER);

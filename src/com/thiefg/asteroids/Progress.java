@@ -109,7 +109,7 @@ public class Progress {
 		round++;
 		stage = ProgressState.WAIT_PLAYER;
 		for (int i = 0; i < getNextRoundAsteroidCount(); i++)
-			Game.getInstance().getWorld().addAsteroid(new Asteroid(Asteroid.getRandomLocation(), Math.random() * 360, (Math.random()-.5) * 4));
+			Game.getInstance().getWorld().addAsteroid(new Asteroid(Asteroid.getRandomLocation(), Math.random() * 360, (Math.random() - .5) * 4));
 	}
 
 	public void update() {

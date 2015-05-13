@@ -20,6 +20,7 @@ public class Game implements Runnable {
 	private static Game instance;
 	private static boolean VSYNC = true;
 	public static int WIDTH = Display.getDesktopDisplayMode().getWidth();
+
 	public static Game getInstance() {
 		if (Game.instance == null) Game.instance = new Game();
 		return Game.instance;
@@ -30,7 +31,6 @@ public class Game implements Runnable {
 	}
 
 	private Background background;
-
 	private GameState currentGameState = GameState.MAIN_MENU;
 	private Progress progress;
 	private UserInterface ui;
