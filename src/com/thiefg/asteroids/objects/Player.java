@@ -13,6 +13,7 @@ import com.thiefg.asteroids.subobjects.Vector2d;
 public class Player {
 	private static final int BACK_POINT_DISTANCE = 2;
 	private static final int BULLET_SPEED = 15;
+	private static final boolean COLOR_SWEEP = true;
 	private static final double COLOR_SWEEP_SPEED = 3d;
 	private static final double DUAL_GUN_ANGLE = 4;
 	private static final int FIRE_DELAY_FAST_MILS = 20;
@@ -28,7 +29,6 @@ public class Player {
 	private static final int SCALE_MULTIPLYER = 5;
 	private static final double TRIPLE_GUN_ANGLE = 10;
 	private static final double VELOCITY_DRAG_MULTIPLYER = .98;
-	private static final boolean COLOR_SWEEP = false;
 	private GunModifier gunModifier;
 	long lastFire = 0;
 	private int livesLeft;
@@ -74,6 +74,7 @@ public class Player {
 			Game.getInstance().getWorld().addBullet(new Bullet(location, rotation - Player.DUAL_GUN_ANGLE, Player.BULLET_SPEED));
 			break;
 		case OCT:
+		case FAST_OCT:
 			Game.getInstance().getWorld().addBullet(new Bullet(location, rotation, Player.BULLET_SPEED));
 			Game.getInstance().getWorld().addBullet(new Bullet(location, rotation + 45, Player.BULLET_SPEED));
 			Game.getInstance().getWorld().addBullet(new Bullet(location, rotation + 90, Player.BULLET_SPEED));
@@ -94,14 +95,12 @@ public class Player {
 			Game.getInstance().getWorld().addBullet(new Bullet(location, rotation, Player.BULLET_SPEED));
 			Game.getInstance().getWorld().addBullet(new Bullet(location, rotation - Player.TRIPLE_GUN_ANGLE, Player.BULLET_SPEED));
 			break;
-		default:
-			break;
 		}
 	}
 
 	private void fireRequest() {
 		long current = System.currentTimeMillis();
-		if (lastFire < (current - (getGunModifier() == GunModifier.FAST ? Player.FIRE_DELAY_FAST_MILS : Player.FIRE_DELAY_MILS))) {
+		if (lastFire < (current - (getGunModifier() == GunModifier.FAST || getGunModifier() == GunModifier.FAST_OCT ? Player.FIRE_DELAY_FAST_MILS : Player.FIRE_DELAY_MILS))) {
 			lastFire = current;
 			fire();
 		}

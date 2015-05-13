@@ -1,5 +1,5 @@
 package com.thiefg.asteroids.objects.modifiers;
 
 public enum GunModifier {
-	DUAL, FAST, OCT, QUAD, SINGLE, TRIPLE;
+	DUAL, FAST, FAST_OCT, OCT, QUAD, SINGLE, TRIPLE;
 }

@@ -109,7 +109,7 @@ public class Progress {
 		round++;
 		stage = ProgressState.WAIT_PLAYER;
 		for (int i = 0; i < getNextRoundAsteroidCount(); i++)
-			Game.getInstance().getWorld().addAsteroid(new Asteroid(Asteroid.getRandomLocation()));
+			Game.getInstance().getWorld().addAsteroid(new Asteroid(Asteroid.getRandomLocation(), Math.random() * 360, (Math.random()-.5) * 4));
 	}
 
 	public void update() {
@@ -144,6 +144,11 @@ public class Progress {
 				octGunUnlocked = true;
 				Game.getInstance().getWorld().getPlayer().setGunModifier(GunModifier.OCT);
 				Game.getInstance().getUi().setMessage("Oct gun unlocked", Progress.UNLOCK_MESSAGE_TIME);
+			}
+			if ((Game.getInstance().getWorld().getPlayer().getScore() > 50000) && !octGunUnlocked) {
+				octGunUnlocked = true;
+				Game.getInstance().getWorld().getPlayer().setGunModifier(GunModifier.FAST_OCT);
+				Game.getInstance().getUi().setMessage("Fast Oct gun unlocked", Progress.UNLOCK_MESSAGE_TIME);
 			}
 			break;
 		}

@@ -14,25 +14,25 @@ public class Game implements Runnable {
 		DEATH, GAMEPLAY, MAIN_MENU, PAUSED;
 	}
 
-	public static Game getInstance() {
-		if (Game.instance == null) Game.instance = new Game();
-		return Game.instance;
-	}
-	public static void main(String[] args) throws LWJGLException {
-		new Thread(Game.getInstance()).start();
-	}
 	public static boolean devMode = false;
 	public static int FRAME_CAP = Display.getDesktopDisplayMode().getFrequency();
 	private static boolean FULLSCREEN = true;
 	public static int HEIGHT = Display.getDesktopDisplayMode().getHeight();
 	private static Game instance;
 	private static boolean VSYNC = true;
-
 	public static int WIDTH = Display.getDesktopDisplayMode().getWidth();
+	public static Game getInstance() {
+		if (Game.instance == null) Game.instance = new Game();
+		return Game.instance;
+	}
 
-	public ConsoleThread console;
+	public static void main(String[] args) throws LWJGLException {
+		new Thread(Game.getInstance()).start();
+	}
 
 	private Background background;
+
+	public ConsoleThread console;
 	private GameState currentGameState = GameState.MAIN_MENU;
 	private Progress progress;
 	private UserInterface ui;
