@@ -120,8 +120,7 @@ public class Progress {
 					.getWorld()
 					.addAsteroid(
 							new Asteroid(Asteroid.getRandomLocation(), Math
-									.random() * 360, (Math.random() - .5) * 4
-									* (Math.random() < .01 ? 10 : 1)));
+									.random() * 360, (Math.random() - .5) * 4));
 	}
 
 	public void update() {
