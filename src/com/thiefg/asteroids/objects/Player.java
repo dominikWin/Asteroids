@@ -57,7 +57,7 @@ public class Player {
 			Asteroid a = asteroids.get(i);
 			if ((Vector2d.distance(a.getLocation(), location) < (a.getSize() + Player.SCALE_MULTIPLYER)) && !a.isDestroyed()) {
 				livesLeft--;
-				Game.getInstance().getWorld().addParticleEffect(new ParticleEffect(location, a.getSize()*100, 5));
+				Game.getInstance().getWorld().addParticleEffect(new ParticleEffect(location, a.getSize() * 100, 5));
 				a.setDestroyed(true);
 				if (livesLeft < 0) Game.getInstance().playerDied();
 			}
@@ -136,6 +136,10 @@ public class Player {
 		return score;
 	}
 
+	public Vector2d getVelocity() {
+		return velocity;
+	}
+
 	public void render() {
 		if (Player.COLOR_SWEEP)
 			GL11.glColor3d((Math.sin(System.currentTimeMillis() / (1000d / Player.COLOR_SWEEP_SPEED)) + 1d) / 2d,
@@ -184,6 +188,10 @@ public class Player {
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+	public void setVelocity(Vector2d velocity) {
+		this.velocity = velocity;
 	}
 
 	public void update() {

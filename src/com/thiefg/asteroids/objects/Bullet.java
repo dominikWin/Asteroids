@@ -8,6 +8,7 @@ import com.thiefg.asteroids.subobjects.Vector2d;
 
 public class Bullet {
 	private static final int RADIUS = 4;
+	private static final boolean RELATIVE_BULLET_SPEED = true;
 	private static final int SIDES = 8;
 	private boolean destroyed;
 	Vector2d location;
@@ -21,6 +22,7 @@ public class Bullet {
 		this.speed = speed;
 		setDestroyed(false);
 		shape = new Polygon(location, Bullet.SIDES, Bullet.RADIUS);
+		if (Bullet.RELATIVE_BULLET_SPEED) speed += Vector2d.distance(Game.getInstance().getWorld().getPlayer().getVelocity(), new Vector2d(0, 0));
 	}
 
 	private void collosionTest() {
@@ -31,7 +33,10 @@ public class Bullet {
 				a.hit();
 				setDestroyed(true);
 				Game.getInstance().getWorld().getPlayer().addScore(a.getSize());
-				Game.getInstance().getWorld().addParticleEffect(new ParticleEffect(location, a.getSize()*12, a.getSize()/6, new Vector2d(new Vector2d(0, 0), rotation, speed), .5));
+				Game.getInstance()
+						.getWorld()
+						.addParticleEffect(
+								new ParticleEffect(location, a.getSize() * 12, a.getSize() / 6, new Vector2d(new Vector2d(0, 0), rotation, speed), .5));
 			}
 		}
 	}

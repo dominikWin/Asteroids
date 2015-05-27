@@ -26,7 +26,7 @@ public class UserInterface {
 	public static final Color MAIN_MENU_SELECTED_COLOR = Color.red;
 	public static final String MAIN_MENU_SINGLEPLAYER_MESSAGE = Messages.getString("UserInterface.MainMenuSingleplayer"); //$NON-NLS-1$
 	public static final String MENU_MENU_TITLE_MESSAGE = Messages.getString("UserInterface.MainMenuMain") //$NON-NLS-1$
-			;
+	;
 	public static final int MENU_OPTION_COUNT = 2;
 	public static final String PAUSE_MENU_TEXT = Messages.getString("UserInterface.PauseMenu");
 	Menu deathMenu;

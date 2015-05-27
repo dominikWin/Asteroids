@@ -28,12 +28,12 @@ public class World {
 		asteroids.add(asteroid);
 	}
 
-	public void addParticleEffect(ParticleEffect p) {
-		particleEffects.add(p);
-	}
-
 	public void addBullet(Bullet bullet) {
 		bullets.add(bullet);
+	}
+
+	public void addParticleEffect(ParticleEffect p) {
+		particleEffects.add(p);
 	}
 
 	public double getAsteroidAddChance() {
@@ -50,11 +50,13 @@ public class World {
 
 	public Vector2d getLocationAwayFromPlayer() {
 		while (true) {
-			Vector2d loc = new Vector2d(Math.random() * Game.WIDTH,
-					Math.random() * Game.HEIGHT);
-			if (Vector2d.distance(loc, getPlayer().getLocation()) < World.MIN_ASTEROID_DISTANCE_TO_PLAYER)
-				return loc;
+			Vector2d loc = new Vector2d(Math.random() * Game.WIDTH, Math.random() * Game.HEIGHT);
+			if (Vector2d.distance(loc, getPlayer().getLocation()) < World.MIN_ASTEROID_DISTANCE_TO_PLAYER) return loc;
 		}
+	}
+
+	public ArrayList<ParticleEffect> getParticleEffects() {
+		return particleEffects;
 	}
 
 	public Player getPlayer() {
@@ -69,17 +71,16 @@ public class World {
 		bullets.removeIf(t -> t.isDestroyed());
 	}
 
-	private void removeOffScreenBullets() {
-		bullets.removeIf(t -> {
-			Vector2d loc = t.getLocation();
-			return (loc.getX() < 0) || (loc.getX() > Game.WIDTH)
-					|| (loc.getY() < 0) || (loc.getY() > Game.HEIGHT);
-		});
-	}
-	
 	private void removeFinishedParticleEffects() {
 		particleEffects.removeIf(p -> {
 			return p.getParticles().isEmpty();
+		});
+	}
+
+	private void removeOffScreenBullets() {
+		bullets.removeIf(t -> {
+			Vector2d loc = t.getLocation();
+			return (loc.getX() < 0) || (loc.getX() > Game.WIDTH) || (loc.getY() < 0) || (loc.getY() > Game.HEIGHT);
 		});
 	}
 
@@ -89,10 +90,10 @@ public class World {
 			a.render();
 		for (Bullet b : bullets)
 			b.render();
-//		long time = System.nanoTime();
+		// long time = System.nanoTime();
 		for (ParticleEffect p : particleEffects)
 			p.render();
-//		System.out.println("  |  Render: " + (System.nanoTime() - time));
+		// System.out.println("  |  Render: " + (System.nanoTime() - time));
 		player.render();
 	}
 
@@ -108,6 +109,10 @@ public class World {
 		this.bullets = bullets;
 	}
 
+	public void setParticleEffects(ArrayList<ParticleEffect> particleEffects) {
+		this.particleEffects = particleEffects;
+	}
+
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
@@ -119,20 +124,12 @@ public class World {
 		for (Bullet b : bullets)
 			b.update();
 		removeFinishedParticleEffects();
-//		long time = System.nanoTime();
+		// long time = System.nanoTime();
 		for (ParticleEffect p : particleEffects)
 			p.update();
-//		System.out.print("Update: " + (System.nanoTime() - time));
+		// System.out.print("Update: " + (System.nanoTime() - time));
 		removeOffScreenBullets();
 		removeDestroyedBullets();
 		player.update();
-	}
-
-	public ArrayList<ParticleEffect> getParticleEffects() {
-		return particleEffects;
-	}
-
-	public void setParticleEffects(ArrayList<ParticleEffect> particleEffects) {
-		this.particleEffects = particleEffects;
 	}
 }

@@ -30,17 +30,17 @@ public class MainMenu implements Menu {
 	public void render() {
 		Game.getInstance().getUi().getMainFont32p();
 		Game.getInstance().getUi().getMainFont24p()
-		.drawString((Game.WIDTH / 2) - (UserInterface.MENU_MENU_TITLE_MESSAGE.length() * 8), 200, UserInterface.MENU_MENU_TITLE_MESSAGE);
+				.drawString((Game.WIDTH / 2) - (UserInterface.MENU_MENU_TITLE_MESSAGE.length() * 8), 200, UserInterface.MENU_MENU_TITLE_MESSAGE);
 		Game.getInstance()
-		.getUi()
-		.getMainFont24p()
-		.drawString((Game.WIDTH / 2) - (UserInterface.MAIN_MENU_SINGLEPLAYER_MESSAGE.length() * 6), 275, UserInterface.MAIN_MENU_SINGLEPLAYER_MESSAGE,
-				selectedIndex == 0 ? UserInterface.MAIN_MENU_SELECTED_COLOR : Color.white);
+				.getUi()
+				.getMainFont24p()
+				.drawString((Game.WIDTH / 2) - (UserInterface.MAIN_MENU_SINGLEPLAYER_MESSAGE.length() * 6), 275, UserInterface.MAIN_MENU_SINGLEPLAYER_MESSAGE,
+						selectedIndex == 0 ? UserInterface.MAIN_MENU_SELECTED_COLOR : Color.white);
 		Game.getInstance()
-		.getUi()
-		.getMainFont24p()
-		.drawString((Game.WIDTH / 2) - (UserInterface.MAIN_MENU_EXIT_MESSAGE.length() * 6), 325, UserInterface.MAIN_MENU_EXIT_MESSAGE,
-				selectedIndex == 1 ? UserInterface.MAIN_MENU_SELECTED_COLOR : Color.white);
+				.getUi()
+				.getMainFont24p()
+				.drawString((Game.WIDTH / 2) - (UserInterface.MAIN_MENU_EXIT_MESSAGE.length() * 6), 325, UserInterface.MAIN_MENU_EXIT_MESSAGE,
+						selectedIndex == 1 ? UserInterface.MAIN_MENU_SELECTED_COLOR : Color.white);
 	}
 
 	@Override
