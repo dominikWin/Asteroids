@@ -57,6 +57,7 @@ public class Player {
 			Asteroid a = asteroids.get(i);
 			if ((Vector2d.distance(a.getLocation(), location) < (a.getSize() + Player.SCALE_MULTIPLYER)) && !a.isDestroyed()) {
 				livesLeft--;
+				Game.getInstance().getWorld().addParticleEffect(new ParticleEffect(location, a.getSize()*100, 5));
 				a.setDestroyed(true);
 				if (livesLeft < 0) Game.getInstance().playerDied();
 			}

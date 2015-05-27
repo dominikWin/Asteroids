@@ -127,9 +127,11 @@ public class Game implements Runnable {
 			render();
 			Display.update();
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+			System.gc();
 			Display.sync(Game.FRAME_CAP);
 		}
 		Display.destroy();
+		System.gc();
 	}
 
 	public void setBackground(Background background) {

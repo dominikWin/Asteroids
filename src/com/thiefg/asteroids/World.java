@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.thiefg.asteroids.objects.Asteroid;
 import com.thiefg.asteroids.objects.Bullet;
+import com.thiefg.asteroids.objects.ParticleEffect;
 import com.thiefg.asteroids.objects.Player;
 import com.thiefg.asteroids.subobjects.Vector2d;
 
@@ -14,6 +15,7 @@ public class World {
 	public double asteroidAddChance = .0075d;
 	private ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+	private ArrayList<ParticleEffect> particleEffects = new ArrayList<ParticleEffect>();
 	private Player player;
 
 	public World() {
@@ -24,6 +26,10 @@ public class World {
 
 	public void addAsteroid(Asteroid asteroid) {
 		asteroids.add(asteroid);
+	}
+
+	public void addParticleEffect(ParticleEffect p) {
+		particleEffects.add(p);
 	}
 
 	public void addBullet(Bullet bullet) {
@@ -44,8 +50,10 @@ public class World {
 
 	public Vector2d getLocationAwayFromPlayer() {
 		while (true) {
-			Vector2d loc = new Vector2d(Math.random() * Game.WIDTH, Math.random() * Game.HEIGHT);
-			if (Vector2d.distance(loc, getPlayer().getLocation()) < World.MIN_ASTEROID_DISTANCE_TO_PLAYER) return loc;
+			Vector2d loc = new Vector2d(Math.random() * Game.WIDTH,
+					Math.random() * Game.HEIGHT);
+			if (Vector2d.distance(loc, getPlayer().getLocation()) < World.MIN_ASTEROID_DISTANCE_TO_PLAYER)
+				return loc;
 		}
 	}
 
@@ -64,7 +72,14 @@ public class World {
 	private void removeOffScreenBullets() {
 		bullets.removeIf(t -> {
 			Vector2d loc = t.getLocation();
-			return (loc.getX() < 0) || (loc.getX() > Game.WIDTH) || (loc.getY() < 0) || (loc.getY() > Game.HEIGHT);
+			return (loc.getX() < 0) || (loc.getX() > Game.WIDTH)
+					|| (loc.getY() < 0) || (loc.getY() > Game.HEIGHT);
+		});
+	}
+	
+	private void removeFinishedParticleEffects() {
+		particleEffects.removeIf(p -> {
+			return p.getParticles().isEmpty();
 		});
 	}
 
@@ -74,6 +89,10 @@ public class World {
 			a.render();
 		for (Bullet b : bullets)
 			b.render();
+//		long time = System.nanoTime();
+		for (ParticleEffect p : particleEffects)
+			p.render();
+//		System.out.println("  |  Render: " + (System.nanoTime() - time));
 		player.render();
 	}
 
@@ -99,8 +118,21 @@ public class World {
 			a.update();
 		for (Bullet b : bullets)
 			b.update();
+		removeFinishedParticleEffects();
+//		long time = System.nanoTime();
+		for (ParticleEffect p : particleEffects)
+			p.update();
+//		System.out.print("Update: " + (System.nanoTime() - time));
 		removeOffScreenBullets();
 		removeDestroyedBullets();
 		player.update();
+	}
+
+	public ArrayList<ParticleEffect> getParticleEffects() {
+		return particleEffects;
+	}
+
+	public void setParticleEffects(ArrayList<ParticleEffect> particleEffects) {
+		this.particleEffects = particleEffects;
 	}
 }
