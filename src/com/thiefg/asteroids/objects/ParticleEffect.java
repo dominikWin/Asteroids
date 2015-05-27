@@ -16,6 +16,11 @@ public class ParticleEffect {
 			getParticles().add(new Particle(loc, force));
 	}
 
+	public ParticleEffect(Vector2d loc, int size, double force, Vector2d initDirection, double initDirectionMultiplyer) {
+		setParticles(new ArrayList<ParticleEffect.Particle>());
+		for (int i = 0; i < size; i++)
+	}
+
 	public void update() {
 		removeOffScreenParticles();
 		for (Particle p : getParticles())
@@ -31,12 +36,10 @@ public class ParticleEffect {
 	}
 
 	private void removeOffScreenParticles() {
-		getParticles().removeIf(
-				t -> {
-					Vector2d loc = t.location;
-					return (loc.getX() < 0) || (loc.getX() > Game.WIDTH)
-							|| (loc.getY() < 0) || (loc.getY() > Game.HEIGHT);
-				});
+		getParticles().removeIf(t -> {
+			Vector2d loc = t.location;
+			return (loc.getX() < 0) || (loc.getX() > Game.WIDTH) || (loc.getY() < 0) || (loc.getY() > Game.HEIGHT);
+		});
 	}
 
 	public ArrayList<Particle> getParticles() {
@@ -54,8 +57,16 @@ public class ParticleEffect {
 
 		public Particle(Vector2d loc, double force) {
 			location = new Vector2d(loc.getX(), loc.getY());
-			velocity = new Vector2d(new Vector2d(0, 0), Math.random() * 360,
-					force * 2 * Math.random());
+			velocity = new Vector2d(new Vector2d(0, 0), Math.random() * 360, force * 2 * Math.random());
+			r = .5d + (Math.random() / 2);
+			g = .5d + (Math.random() / 2);
+			b = .5d + (Math.random() / 2);
+		}
+
+		public Particle(Vector2d loc, double force, Vector2d multiply) {
+			location = new Vector2d(loc.getX(), loc.getY());
+			velocity = new Vector2d(new Vector2d(0, 0), Math.random() * 360, force * 2 * Math.random());
+			velocity.add(multiply);
 			r = .5d + (Math.random() / 2);
 			g = .5d + (Math.random() / 2);
 			b = .5d + (Math.random() / 2);

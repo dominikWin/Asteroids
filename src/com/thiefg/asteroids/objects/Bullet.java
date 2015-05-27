@@ -31,7 +31,7 @@ public class Bullet {
 				a.hit();
 				setDestroyed(true);
 				Game.getInstance().getWorld().getPlayer().addScore(a.getSize());
-				Game.getInstance().getWorld().addParticleEffect(new ParticleEffect(location, a.getSize()*12, a.getSize()/6));
+				Game.getInstance().getWorld().addParticleEffect(new ParticleEffect(location, a.getSize()*12, a.getSize()/6, new Vector2d(new Vector2d(0, 0), rotation, speed), .5));
 			}
 		}
 	}
