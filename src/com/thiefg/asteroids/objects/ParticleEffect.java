@@ -29,13 +29,14 @@ public class ParticleEffect {
 		GL11.glEnd();
 		GL11.glColor3d(1, 1, 1);
 	}
-	
+
 	private void removeOffScreenParticles() {
-		getParticles().removeIf(t -> {
-			Vector2d loc = t.location;
-			return (loc.getX() < 0) || (loc.getX() > Game.WIDTH)
-					|| (loc.getY() < 0) || (loc.getY() > Game.HEIGHT);
-		});
+		getParticles().removeIf(
+				t -> {
+					Vector2d loc = t.location;
+					return (loc.getX() < 0) || (loc.getX() > Game.WIDTH)
+							|| (loc.getY() < 0) || (loc.getY() > Game.HEIGHT);
+				});
 	}
 
 	public ArrayList<Particle> getParticles() {
@@ -49,12 +50,12 @@ public class ParticleEffect {
 	private class Particle {
 		private static final double GRAVITY_MULTIPLYER = .1;
 		Vector2d location, velocity;
-		double r,g,b;
+		double r, g, b;
 
 		public Particle(Vector2d loc, double force) {
 			location = new Vector2d(loc.getX(), loc.getY());
 			velocity = new Vector2d(new Vector2d(0, 0), Math.random() * 360,
-					force * 2 *Math.random());
+					force * 2 * Math.random());
 			r = .5d + (Math.random() / 2);
 			g = .5d + (Math.random() / 2);
 			b = .5d + (Math.random() / 2);
@@ -62,8 +63,7 @@ public class ParticleEffect {
 
 		public void update() {
 			location.add(velocity);
-			 velocity.add(new Vector2d(0, Math.random() *
-			 GRAVITY_MULTIPLYER));
+			velocity.add(new Vector2d(0, GRAVITY_MULTIPLYER));
 		}
 
 		public void render() {
