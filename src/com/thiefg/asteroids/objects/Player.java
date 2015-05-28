@@ -10,6 +10,10 @@ import com.thiefg.asteroids.input.Input;
 import com.thiefg.asteroids.objects.modifiers.GunModifier;
 import com.thiefg.asteroids.subobjects.Vector2d;
 
+/**
+ * @author Dominik
+ * 
+ */
 public class Player {
 	private static final int BACK_POINT_DISTANCE = 2;
 	private static final int BULLET_SPEED = 15;
@@ -37,6 +41,11 @@ public class Player {
 	double rotation;
 	private int score;
 
+	/**
+	 * @param location
+	 * @param rotation
+	 * Creates player at location with rotation
+	 */
 	public Player(Vector2d location, double rotation) {
 		this.location = location;
 		velocity = new Vector2d(0, 0);
@@ -47,23 +56,38 @@ public class Player {
 		updatePoints();
 	}
 
+	/**
+	 * @param asteroidSize
+	 * Increases player score relative to size of asteroid
+	 */
 	public void addScore(int asteroidSize) {
+		/*
+		 * asteroidSize * player speed / 8
+		 */
 		score += (asteroidSize * Vector2d.distance(new Vector2d(0, 0), velocity)) / 8;
 	}
 
+	/**
+	 * Tests for player colision with asteroids
+	 */
 	private void collosionTest() {
+		//Go through each asteroid
 		ArrayList<Asteroid> asteroids = Game.getInstance().getWorld().getAsteroids();
 		for (int i = 0; i < asteroids.size(); i++) {
 			Asteroid a = asteroids.get(i);
 			if ((Vector2d.distance(a.getLocation(), location) < (a.getSize() + Player.SCALE_MULTIPLYER)) && !a.isDestroyed()) {
-				livesLeft--;
-				Game.getInstance().getWorld().addParticleEffect(new ParticleEffect(location, a.getSize() * 100, 5));
-				a.setDestroyed(true);
-				if (livesLeft < 0) Game.getInstance().playerDied();
+				//Colision detected
+				livesLeft--; //Reduce life
+				Game.getInstance().getWorld().addParticleEffect(new ParticleEffect(location, a.getSize() * 30, 5)); //Create explosion
+				a.setDestroyed(true); //Destroy asteroid
+				if (livesLeft < 0) Game.getInstance().playerDied(); //Test for game over
 			}
 		}
 	}
 
+	/**
+	 * Shoots bullet
+	 */
 	private void fire() {
 		switch (gunModifier) {
 		case SINGLE:
@@ -99,10 +123,14 @@ public class Player {
 		}
 	}
 
+	/**
+	 * Calls fire() if player can fire
+	 */
 	private void fireRequest() {
 		long current = System.currentTimeMillis();
 		if (lastFire < (current - ((getGunModifier() == GunModifier.FAST) || (getGunModifier() == GunModifier.FAST_OCT) ? Player.FIRE_DELAY_FAST_MILS
-				: Player.FIRE_DELAY_MILS))) {
+				: Player.FIRE_DELAY_MILS))) { //Test for time allowance
+			//Shoot
 			lastFire = current;
 			fire();
 		}
@@ -140,12 +168,18 @@ public class Player {
 		return velocity;
 	}
 
+	/**
+	 * Renders player
+	 */
 	public void render() {
 		if (Player.COLOR_SWEEP)
+			//Update color with triple sine wave sweep method
+			//Note: Overkill, way to accurate for a game
 			GL11.glColor3d((Math.sin(System.currentTimeMillis() / (1000d / Player.COLOR_SWEEP_SPEED)) + 1d) / 2d,
 					(Math.sin((System.currentTimeMillis() / (1000d / Player.COLOR_SWEEP_SPEED)) + (Math.PI * (2d / 3d))) + 1d) / 2d,
 					(Math.sin((System.currentTimeMillis() / (1000d / Player.COLOR_SWEEP_SPEED)) + (Math.PI * (4d / 3d))) + 1d) / 2d);
 		GL11.glBegin(GL11.GL_LINES);
+		//Draw points
 		for (int i = 0; i < (points.size() - 1); i++) {
 			GL11.glVertex2i((int) (points.get(i).getX()), (int) (points.get(i).getY()));
 			GL11.glVertex2i((int) (points.get(i + 1).getX()), (int) (points.get(i + 1).getY()));
@@ -156,6 +190,9 @@ public class Player {
 		GL11.glColor3d(1d, 1d, 1d);
 	}
 
+	/**
+	 * Renders point at center of plater
+	 */
 	public void renderPoint() {
 		GL11.glBegin(GL11.GL_POINTS);
 		GL11.glVertex2i((int) (location.getX()), (int) (location.getY()));
@@ -194,50 +231,58 @@ public class Player {
 		this.velocity = velocity;
 	}
 
+	/**
+	 * Updates player data
+	 */
 	public void update() {
 		if (Game.devMode) {
+			//Give player power to chose weapons
 			if (Input.getKeyDown(Keyboard.KEY_1)) gunModifier = GunModifier.SINGLE;
 			if (Input.getKeyDown(Keyboard.KEY_2)) gunModifier = GunModifier.DUAL;
 			if (Input.getKeyDown(Keyboard.KEY_3)) gunModifier = GunModifier.TRIPLE;
 			if (Input.getKeyDown(Keyboard.KEY_4)) gunModifier = GunModifier.QUAD;
 			if (Input.getKeyDown(Keyboard.KEY_8)) gunModifier = GunModifier.OCT;
 			if (Input.getKeyDown(Keyboard.KEY_EQUALS)) gunModifier = GunModifier.FAST;
+			if (Input.getKeyDown(Keyboard.KEY_BACK)) gunModifier = GunModifier.FAST_OCT;
 		}
+		//Rotation Input
 		if (Input.getKey(Keyboard.KEY_LEFT)) rotation -= 5;
 		if (Input.getKey(Keyboard.KEY_RIGHT)) rotation += 5;
+		//Movement Input
 		if (Input.getKey(Keyboard.KEY_W))
-		// location = new Vector2d(location, rotation, MOVEMENT_SPEED);
 		velocity.add(new Vector2d(new Vector2d(0, 0), rotation, Player.MOVEMENT_SPEED));
 		else if (Input.getKey(Keyboard.KEY_S))
-		// location = new Vector2d(location, rotation + 180,
-		// MOVEMENT_SPEED);
 		velocity.add(new Vector2d(new Vector2d(0, 0), rotation + 180, Player.MOVEMENT_SPEED));
 		else if (Input.getKey(Keyboard.KEY_D))
-		// location = new Vector2d(location, rotation + 90, MOVEMENT_SPEED);
 		velocity.add(new Vector2d(new Vector2d(0, 0), rotation + 90, Player.HORIZONTAL_MOVEMENT_SPEED));
 		else if (Input.getKey(Keyboard.KEY_A))
-		// location = new Vector2d(location, rotation + 270,
-		// MOVEMENT_SPEED);
 			velocity.add(new Vector2d(new Vector2d(0, 0), rotation + 270, Player.HORIZONTAL_MOVEMENT_SPEED));
+		//Gun Input
 		if (Input.getKey(Keyboard.KEY_SPACE)) fireRequest();
+		//Add friction
 		velocity.multiply(Player.VELOCITY_DRAG_MULTIPLYER);
+		//Limit player max speed
 		if (Vector2d.distance(velocity, new Vector2d(0, 0)) > Player.MAX_MOVEMENT_SPEED) {
 			double multiplyer = Player.MAX_MOVEMENT_SPEED / Vector2d.distance(velocity, new Vector2d(0, 0));
 			velocity.multiply(multiplyer);
 		}
-		location.add(velocity);
+		location.add(velocity); //Update player location
+		//Keep player on screen
 		while (location.getX() < 0)
-			location.setX(location.getX() + Game.WIDTH);
-		while (location.getX() > Game.WIDTH)
-			location.setX(location.getX() - Game.WIDTH);
+			location.setX(location.getX() + Game.width);
+		while (location.getX() > Game.width)
+			location.setX(location.getX() - Game.width);
 		while (location.getY() < 0)
-			location.setY(location.getY() + Game.HEIGHT);
-		while (location.getY() > Game.HEIGHT)
-			location.setY(location.getY() - Game.HEIGHT);
-		collosionTest();
+			location.setY(location.getY() + Game.height);
+		while (location.getY() > Game.height)
+			location.setY(location.getY() - Game.height);
+		collosionTest(); //Test for impact
 		updatePoints();
 	}
 
+	/**
+	 * Updates player points
+	 */
 	public void updatePoints() {
 		points.clear();
 		points.add(new Vector2d(location, rotation, Player.FRONT_POINT_DISTANCE * Player.SCALE_MULTIPLYER));

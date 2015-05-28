@@ -1,17 +1,24 @@
 package com.thiefg.asteroids.objects;
 
 import com.thiefg.asteroids.Game;
-import com.thiefg.asteroids.subobjects.DistortedPolygon;
+import com.thiefg.asteroids.subobjects.VariableDistancePolygon;
 import com.thiefg.asteroids.subobjects.Vector2d;
 
+/**
+ * @author Dominik
+ *
+ */
 public class Asteroid {
 	private static final int SHAPE_SIDES = 6;
 	private static final int SMALLEST_SIZE = 8;
 
+	/**
+	 * @return new random location away from player
+	 */
 	public static Vector2d getRandomLocation() {
 		while (true) {
-			Vector2d loc = new Vector2d(Math.random() * Game.WIDTH, Math.random() * Game.HEIGHT);
-			if (Vector2d.distance(loc, Game.getInstance().getWorld().getPlayer().getLocation()) > (Game.WIDTH / 6)) return loc;
+			Vector2d loc = new Vector2d(Math.random() * Game.width, Math.random() * Game.height);
+			if (Vector2d.distance(loc, Game.getInstance().getWorld().getPlayer().getLocation()) > (Game.width / 6)) return loc;
 		}
 	}
 
@@ -19,43 +26,65 @@ public class Asteroid {
 	private Vector2d location;
 	private double rotation;
 	private double rotationSpeed;
-	private DistortedPolygon shape;
+	private VariableDistancePolygon shape;
 	private int size = 32;
 	private Vector2d velocity;
 
+	/**
+	 * @param location
+	 * Creates Asteroid at location
+	 */
 	public Asteroid(Vector2d location) {
 		this.location = location;
 		rotation = 0;
 		rotationSpeed = 0;
-		shape = new DistortedPolygon(location, Asteroid.SHAPE_SIDES, size, rotation, .5, 2);
+		shape = new VariableDistancePolygon(location, Asteroid.SHAPE_SIDES, size, rotation, .5, 2);
 		setVelocity(getRandosmVelocity());
 		destroyed = false;
 	}
 
+	/**
+	 * @param location
+	 * @param rotation
+	 * Creates asteroid at location & rotation
+	 */
 	public Asteroid(Vector2d location, double rotation) {
 		this.location = location;
 		this.rotation = rotation;
 		rotationSpeed = 0;
-		shape = new DistortedPolygon(location, Asteroid.SHAPE_SIDES, size, rotation, .5, 2);
+		shape = new VariableDistancePolygon(location, Asteroid.SHAPE_SIDES, size, rotation, .5, 2);
 		setVelocity(getRandosmVelocity());
 		destroyed = false;
 	}
 
+	/**
+	 * @param location
+	 * @param rotation
+	 * @param rotationSpeed
+	 * Creates asteroid at location & rotation that rotates at rotationSpeed
+	 */
 	public Asteroid(Vector2d location, double rotation, double rotationSpeed) {
 		this.location = location;
 		this.rotation = rotation;
 		this.rotationSpeed = rotationSpeed;
-		shape = new DistortedPolygon(location, Asteroid.SHAPE_SIDES, size, rotation, .5, 2);
+		shape = new VariableDistancePolygon(location, Asteroid.SHAPE_SIDES, size, rotation, .5, 2);
 		setVelocity(getRandosmVelocity());
 		destroyed = false;
 	}
 
+	/**
+	 * @param location
+	 * @param rotation
+	 * @param rotationSpeed
+	 * @param size
+	 * Creates asteroid at location & rotation that rotates at rotationSpeed & size
+	 */
 	public Asteroid(Vector2d location, double rotation, double rotationSpeed, int size) {
 		this.location = location;
 		this.rotation = rotation;
 		this.rotationSpeed = rotationSpeed;
 		this.size = size;
-		shape = new DistortedPolygon(location, Asteroid.SHAPE_SIDES, size, rotation, .5, 2);
+		shape = new VariableDistancePolygon(location, Asteroid.SHAPE_SIDES, size, rotation, .5, 2);
 		setVelocity(getRandosmVelocity());
 		destroyed = false;
 	}
@@ -64,6 +93,9 @@ public class Asteroid {
 		return location;
 	}
 
+	/**
+	 * @return random Vector2d for velocity between -5 - 5
+	 */
 	private Vector2d getRandosmVelocity() {
 		return new Vector2d((Math.random() * 10d) - 5d, (Math.random() * 10d) - 5d);
 	}
@@ -76,7 +108,7 @@ public class Asteroid {
 		return rotationSpeed;
 	}
 
-	public DistortedPolygon getShape() {
+	public VariableDistancePolygon getShape() {
 		return shape;
 	}
 
@@ -88,12 +120,15 @@ public class Asteroid {
 		return velocity;
 	}
 
+	/**
+	 * Handles actions if asteroid hit
+	 */
 	public void hit() {
 		destroyed = true;
 		if (size <= Asteroid.SMALLEST_SIZE) return;
+		//Add two smaller asteroids at location
 		Game.getInstance().getWorld().addAsteroid(new Asteroid(new Vector2d(location.getX(), location.getY()), Math.random() * 360, rotationSpeed, size / 2));
 		Game.getInstance().getWorld().addAsteroid(new Asteroid(new Vector2d(location.getX(), location.getY()), Math.random() * 360, rotationSpeed, size / 2));
-		Game.getInstance().getWorld().asteroidAddChance += .0002;
 	}
 
 	public boolean isDestroyed() {
@@ -120,7 +155,7 @@ public class Asteroid {
 		this.rotationSpeed = rotationSpeed;
 	}
 
-	public void setShape(DistortedPolygon shape) {
+	public void setShape(VariableDistancePolygon shape) {
 		this.shape = shape;
 	}
 
@@ -132,14 +167,18 @@ public class Asteroid {
 		this.velocity = velocity;
 	}
 
+	/**
+	 * Updates asteroid
+	 */
 	public void update() {
-		if (location.getX() < 0) location.setX(location.getX() + Game.WIDTH);
-		if (location.getX() > Game.WIDTH) location.setX(location.getX() - Game.WIDTH);
-		if (location.getY() < 0) location.setY(location.getY() + Game.HEIGHT);
-		if (location.getY() > Game.HEIGHT) location.setY(location.getY() - Game.HEIGHT);
-		rotation += rotationSpeed;
-		location.add(getVelocity());
-		shape.setRotation(rotation);
-		shape.update();
+		//Keeps asteroid in screen
+		while (location.getX() < 0) location.setX(location.getX() + Game.width);
+		while (location.getX() > Game.width) location.setX(location.getX() - Game.width);
+		while (location.getY() < 0) location.setY(location.getY() + Game.height);
+		while (location.getY() > Game.height) location.setY(location.getY() - Game.height);
+		rotation += rotationSpeed; //Rotate asteroid
+		location.add(getVelocity()); //Move
+		shape.setRotation(rotation); //Update location
+		shape.updatePoints();
 	}
 }

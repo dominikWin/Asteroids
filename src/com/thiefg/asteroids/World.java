@@ -10,6 +10,10 @@ import com.thiefg.asteroids.objects.ParticleEffect;
 import com.thiefg.asteroids.objects.Player;
 import com.thiefg.asteroids.subobjects.Vector2d;
 
+/**
+ * @author Dominik
+ * World object, holds all game components
+ */
 public class World {
 	private static final double MIN_ASTEROID_DISTANCE_TO_PLAYER = 100;
 	public double asteroidAddChance = .0075d;
@@ -18,22 +22,37 @@ public class World {
 	private ArrayList<ParticleEffect> particleEffects = new ArrayList<ParticleEffect>();
 	private Player player;
 
+	/**
+	 * Creates new World
+	 */
 	public World() {
-		player = new Player(new Vector2d(Game.WIDTH / 2, Game.HEIGHT / 2), 0);
+		player = new Player(new Vector2d(Game.width / 2, Game.height / 2), 0);
 		asteroids = new ArrayList<Asteroid>();
 		bullets = new ArrayList<Bullet>();
 	}
 
+	/**
+	 * @param asteroid
+	 * Adds asteroid to asteroids
+	 */
 	public void addAsteroid(Asteroid asteroid) {
 		asteroids.add(asteroid);
 	}
 
+	/**
+	 * @param bullet
+	 * Add bullet to bullets
+	 */
 	public void addBullet(Bullet bullet) {
 		bullets.add(bullet);
 	}
 
-	public void addParticleEffect(ParticleEffect p) {
-		particleEffects.add(p);
+	/**
+	 * @param particleEffect
+	 * Adds particleEffect to particleEffects
+	 */
+	public void addParticleEffect(ParticleEffect particleEffect) {
+		particleEffects.add(particleEffect);
 	}
 
 	public double getAsteroidAddChance() {
@@ -48,9 +67,12 @@ public class World {
 		return bullets;
 	}
 
+	/**
+	 * @return new Vector2d in screen away from player
+	 */
 	public Vector2d getLocationAwayFromPlayer() {
 		while (true) {
-			Vector2d loc = new Vector2d(Math.random() * Game.WIDTH, Math.random() * Game.HEIGHT);
+			Vector2d loc = new Vector2d(Math.random() * Game.width, Math.random() * Game.height);
 			if (Vector2d.distance(loc, getPlayer().getLocation()) < World.MIN_ASTEROID_DISTANCE_TO_PLAYER) return loc;
 		}
 	}
@@ -63,38 +85,48 @@ public class World {
 		return player;
 	}
 
+	/**
+	 * Removes destroyed asteroids
+	 */
 	private void removeDestroyedAsteroids() {
 		asteroids.removeIf(t -> t.isDestroyed());
 	}
 
+	/**
+	 * Removes destroyed bullets
+	 */
 	private void removeDestroyedBullets() {
 		bullets.removeIf(t -> t.isDestroyed());
 	}
 
+	/**
+	 * Removes particleEffects with no particles
+	 */
 	private void removeFinishedParticleEffects() {
 		particleEffects.removeIf(p -> {
 			return p.getParticles().isEmpty();
 		});
 	}
 
+	/**
+	 * Removes off-screen bullets
+	 */
 	private void removeOffScreenBullets() {
 		bullets.removeIf(t -> {
 			Vector2d loc = t.getLocation();
-			return (loc.getX() < 0) || (loc.getX() > Game.WIDTH) || (loc.getY() < 0) || (loc.getY() > Game.HEIGHT);
+			return (loc.getX() < 0) || (loc.getX() > Game.width) || (loc.getY() < 0) || (loc.getY() > Game.height);
 		});
 	}
 
+	/**
+	 * Renders world
+	 */
 	public void render() {
 		GL11.glColor3d(1, 1, 1);
-		for (Asteroid a : asteroids)
-			a.render();
-		for (Bullet b : bullets)
-			b.render();
-		// long time = System.nanoTime();
-		for (ParticleEffect p : particleEffects)
-			p.render();
-		// System.out.println("  |  Render: " + (System.nanoTime() - time));
-		player.render();
+		asteroids.forEach(a -> a.render()); //Renders asteroids
+		bullets.forEach(b -> b.render()); //Renders bullets
+		particleEffects.forEach(e -> e.render()); //Renders particleEffects
+		player.render(); //Renders player
 	}
 
 	public void setAsteroidAddChance(double asteroidAddChance) {
@@ -117,19 +149,17 @@ public class World {
 		this.player = player;
 	}
 
+	/**
+	 * Updates world
+	 */
 	public void update() {
 		removeDestroyedAsteroids();
-		for (Asteroid a : asteroids)
-			a.update();
-		for (Bullet b : bullets)
-			b.update();
+		asteroids.forEach(a -> a.update()); //Updates asteroids
+		bullets.forEach(b -> b.update()); //Updates bullets
 		removeFinishedParticleEffects();
-		// long time = System.nanoTime();
-		for (ParticleEffect p : particleEffects)
-			p.update();
-		// System.out.print("Update: " + (System.nanoTime() - time));
+		particleEffects.forEach(e -> e.update()); //Updates particleEffects
 		removeOffScreenBullets();
 		removeDestroyedBullets();
-		player.update();
+		player.update(); //Updates player
 	}
 }

@@ -3,7 +3,15 @@ package com.thiefg.asteroids;
 import com.thiefg.asteroids.objects.Asteroid;
 import com.thiefg.asteroids.objects.modifiers.GunModifier;
 
+/**
+ * @author Dominik
+ * Progression system
+ */
 public class Progress {
+	/**
+	 * @author Dominik
+	 * Round parts
+	 */
 	private enum ProgressState {
 		WAIT_INIT, WAIT_PLAYER;
 	}
@@ -11,12 +19,15 @@ public class Progress {
 	private static final int INIT_DELAY = 5000;
 	private static final int PER_ROUND_LIFE_BOOST = 2;
 	private static final int UNLOCK_MESSAGE_TIME = 3000;
-	private boolean fastGunUnlocked, dualGunUnlocked, trippleGunUnlocked, quadGunUnlocked, octGunUnlocked;
+	private boolean fastGunUnlocked, dualGunUnlocked, trippleGunUnlocked, quadGunUnlocked, octGunUnlocked, fastOctGunUnlocked;
 	private int round;
 	private int secsToNextRound;
 	ProgressState stage;
 	private long startNextRoundTime;
 
+	/**
+	 * Creates new Progress
+	 */
 	public Progress() {
 		stage = ProgressState.WAIT_INIT;
 		fastGunUnlocked = false;
@@ -24,14 +35,21 @@ public class Progress {
 		trippleGunUnlocked = false;
 		quadGunUnlocked = false;
 		octGunUnlocked = false;
+		fastGunUnlocked = false;
 	}
 
+	/**
+	 * Handles code at end of round
+	 */
 	private void endRound() {
 		startNextRoundTime = Progress.INIT_DELAY + System.currentTimeMillis();
 		stage = ProgressState.WAIT_INIT;
 		Game.getInstance().getWorld().getPlayer().setLivesLeft(Game.getInstance().getWorld().getPlayer().getLivesLeft() + Progress.PER_ROUND_LIFE_BOOST);
 	}
 
+	/**
+	 * @return number of asteroids to add next round
+	 */
 	private int getNextRoundAsteroidCount() {
 		return 5 + (3 * round);
 	}
@@ -48,6 +66,9 @@ public class Progress {
 		return startNextRoundTime;
 	}
 
+	/**
+	 * Init progress
+	 */
 	public void init() {
 		setStartNextRoundTime(System.currentTimeMillis() + Progress.INIT_DELAY);
 		setSecsToNextRound(5);
@@ -105,14 +126,22 @@ public class Progress {
 		this.trippleGunUnlocked = trippleGunUnlocked;
 	}
 
+	/**
+	 * Starts new round
+	 */
 	private void startRound() {
 		round++;
 		stage = ProgressState.WAIT_PLAYER;
+		//Add asteroids
 		for (int i = 0; i < getNextRoundAsteroidCount(); i++)
 			Game.getInstance().getWorld().addAsteroid(new Asteroid(Asteroid.getRandomLocation(), Math.random() * 360, (Math.random() - .5) * 4));
 	}
 
+	/**
+	 * Updates progression
+	 */
 	public void update() {
+		//Gun unlocks
 		switch (stage) {
 		case WAIT_INIT:
 			if (System.currentTimeMillis() > startNextRoundTime) startRound();
@@ -146,12 +175,20 @@ public class Progress {
 				Game.getInstance().getUi().setMessage("Oct gun unlocked", Progress.UNLOCK_MESSAGE_TIME);
 			}
 			if ((Game.getInstance().getWorld().getPlayer().getScore() > 50000) && !octGunUnlocked) {
-				octGunUnlocked = true;
+				setFastOctGunUnlocked(true);
 				Game.getInstance().getWorld().getPlayer().setGunModifier(GunModifier.FAST_OCT);
 				Game.getInstance().getUi().setMessage("Fast Oct gun unlocked", Progress.UNLOCK_MESSAGE_TIME);
 			}
 			break;
 		}
-		secsToNextRound = (int) ((startNextRoundTime - System.currentTimeMillis()) / 1000) + 1;
+		secsToNextRound = (int) ((startNextRoundTime - System.currentTimeMillis()) / 1000) + 1; //Updates secsToNextRound
+	}
+
+	public boolean isFastOctGunUnlocked() {
+		return fastOctGunUnlocked;
+	}
+
+	public void setFastOctGunUnlocked(boolean fastOctGunUnlocked) {
+		this.fastOctGunUnlocked = fastOctGunUnlocked;
 	}
 }

@@ -15,6 +15,10 @@ import com.thiefg.asteroids.userinterface.munus.MainMenu;
 import com.thiefg.asteroids.userinterface.munus.Menu;
 import com.thiefg.asteroids.userinterface.munus.PauseMenu;
 
+/**
+ * @author Dominik
+ * UserInterface, all non game object displays
+ */
 public class UserInterface {
 	private static final boolean ANTIALIAS_TEXT = false;
 	public static final String DEATH_MESSAGE = Messages.getString("UserInterface.DeathMessage"); //$NON-NLS-1$
@@ -37,7 +41,11 @@ public class UserInterface {
 	private int mainMenuSelectedIndex;
 	Menu pauseMenu;
 
+	/**
+	 * Creates UserInterface
+	 */
 	public UserInterface() {
+		//Load font 24px
 		try {
 			InputStream inputStream = new FileInputStream(UserInterface.FONT_LOCATION_PREFIX + UserInterface.FONT_BITWISE + UserInterface.FONT_TYPE_SUFFIX);
 			Font tmpFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
@@ -46,6 +54,7 @@ public class UserInterface {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		//Load font 32px
 		try {
 			InputStream inputStream = new FileInputStream(UserInterface.FONT_LOCATION_PREFIX + UserInterface.FONT_BITWISE + UserInterface.FONT_TYPE_SUFFIX);
 			Font tmpFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
@@ -54,7 +63,9 @@ public class UserInterface {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		//Set default index
 		setMainMenuSelectedIndex(0);
+		//Init Menus
 		mainMenu = new MainMenu();
 		deathMenu = new DeathMenu();
 		gameplayMenu = new GameplayMenu();
@@ -73,6 +84,9 @@ public class UserInterface {
 		return mainMenuSelectedIndex;
 	}
 
+	/**
+	 * Renders UserInterface
+	 */
 	public void render() {
 		GL11.glEnable(GL11.GL_BLEND);
 		switch (Game.getInstance().getCurrentGameState()) {
@@ -110,6 +124,9 @@ public class UserInterface {
 		gameplayMenu.setMessage(message, time);
 	}
 
+	/**
+	 * Updates UserInterface
+	 */
 	public void update() {
 		switch (Game.getInstance().getCurrentGameState()) {
 		case DEATH:

@@ -6,6 +6,10 @@ import org.lwjgl.opengl.GL11;
 
 import com.thiefg.asteroids.subobjects.Vector2d;
 
+/**
+ * @author Dominik
+ * Empty player shape for life bar, only for player HUD
+ */
 public class PlayerModel {
 	private static final int BACK_POINT_DISTANCE = 2;
 	private static final int FRONT_POINT_DISTANCE = 5;
@@ -16,6 +20,11 @@ public class PlayerModel {
 	ArrayList<Vector2d> points;
 	double rotation;
 
+	/**
+	 * Creates PlayerModel at location & rotation
+	 * @param location
+	 * @param rotation
+	 */
 	public PlayerModel(Vector2d location, double rotation) {
 		this.location = location;
 		this.rotation = rotation;
@@ -35,19 +44,28 @@ public class PlayerModel {
 		return rotation;
 	}
 
+	/**
+	 * Renders model
+	 */
 	public void render() {
 		GL11.glColor3d(1, 1, 1);
 		GL11.glBegin(GL11.GL_LINES);
+		//Connect lines
 		for (int i = 0; i < (points.size() - 1); i++) {
 			GL11.glVertex2i((int) (points.get(i).getX()), (int) (points.get(i).getY()));
 			GL11.glVertex2i((int) (points.get(i + 1).getX()), (int) (points.get(i + 1).getY()));
 		}
+		//Connect first & last point
 		GL11.glVertex2i((int) (points.get(0).getX()), (int) (points.get(0).getY()));
 		GL11.glVertex2i((int) (points.get(points.size() - 1).getX()), (int) (points.get(points.size() - 1).getY()));
+		
 		GL11.glEnd();
 		GL11.glColor3d(1d, 1d, 1d);
 	}
 
+	/**
+	 * Renders point at center of model
+	 */
 	public void renderPoint() {
 		GL11.glBegin(GL11.GL_POINTS);
 		GL11.glVertex2i((int) (location.getX()), (int) (location.getY()));
@@ -66,6 +84,9 @@ public class PlayerModel {
 		this.rotation = rotation;
 	}
 
+	/**
+	 * Recalculates the point locations
+	 */
 	public void updatePoints() {
 		points.clear();
 		points.add(new Vector2d(location, rotation, PlayerModel.FRONT_POINT_DISTANCE * PlayerModel.SCALE_MULTIPLYER));

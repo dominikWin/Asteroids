@@ -8,19 +8,30 @@ import com.thiefg.asteroids.input.Input;
 import com.thiefg.asteroids.userinterface.Background;
 import com.thiefg.asteroids.userinterface.UserInterface;
 
+/**
+ * @author Dominik
+ * 
+ */
 public class Game implements Runnable {
+	/**
+	 * @author Dominik
+	 * States of game
+	 */
 	public enum GameState {
 		DEATH, GAMEPLAY, MAIN_MENU, PAUSED;
 	}
 
 	public static boolean devMode = false;
-	public static int FRAME_CAP = Display.getDesktopDisplayMode().getFrequency();
-	private static boolean FULLSCREEN = true;
-	public static int HEIGHT = Display.getDesktopDisplayMode().getHeight();
+	public static int frameCap = Display.getDesktopDisplayMode().getFrequency();
+	private static boolean fullscreen = true;
+	public static int height = Display.getDesktopDisplayMode().getHeight();
 	private static Game instance;
-	private static boolean VSYNC = true;
-	public static int WIDTH = Display.getDesktopDisplayMode().getWidth();
+	private static boolean vSyncEnabled = true;
+	public static int width = Display.getDesktopDisplayMode().getWidth();
 
+	/**
+	 * @return single instance of Game class
+	 */
 	public static Game getInstance() {
 		if (Game.instance == null) Game.instance = new Game();
 		return Game.instance;
@@ -36,13 +47,18 @@ public class Game implements Runnable {
 	private UserInterface ui;
 	private World world;
 
-	public Game() {
-	}
-
+	/**
+	 * Exits game
+	 */
 	public void exit() {
+		Display.destroy();
+		System.gc();
 		System.exit(0);
 	}
 
+	/**
+	 * Starts game
+	 */
 	public void gameStart() {
 		progress.init();
 	}
@@ -67,13 +83,11 @@ public class Game implements Runnable {
 		return world;
 	}
 
+	/**
+	 * Init game
+	 */
 	private void init() {
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
-		GL11.glOrtho(0, Game.WIDTH, Game.HEIGHT, 0, 1, -1);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		glInit();
 		Input.update();
 		world = new World();
 		ui = new UserInterface();
@@ -82,36 +96,65 @@ public class Game implements Runnable {
 		Input.showMouse(false);
 	}
 
+	/**
+	 * Init OpenGL
+	 */
+	private void glInit() {
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GL11.glOrtho(0, Game.width, Game.height, 0, 1, -1);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+	}
+
+	/**
+	 * Pause game
+	 */
 	public void pause() {
 		setCurrentGameState(GameState.PAUSED);
 	}
 
+	/**
+	 * Set game to death state
+	 */
 	public void playerDied() {
 		currentGameState = GameState.DEATH;
 	}
 
+	/**
+	 * Renders game
+	 */
 	private void render() {
 		background.render();
 		if (currentGameState == GameState.GAMEPLAY) world.render();
 		ui.render();
 	}
 
+	/**
+	 * Resets game
+	 */
 	public void resetGame() {
 		currentGameState = GameState.MAIN_MENU;
 		setWorld(new World());
 		progress = new Progress();
 	}
 
+	/**
+	 * Main thread
+	 */
 	@Override
 	public void run() {
+		//Create display
 		try {
 			Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode());
-			Display.setFullscreen(Game.FULLSCREEN);
-			Display.setVSyncEnabled(Game.VSYNC);
+			Display.setFullscreen(Game.fullscreen);
+			Display.setVSyncEnabled(Game.vSyncEnabled);
 			Display.setResizable(false);
-			Game.WIDTH = Display.getDisplayMode().getWidth();
-			Game.HEIGHT = Display.getDisplayMode().getHeight();
-			Game.FRAME_CAP = Display.getDisplayMode().getFrequency();
+			//Update resolution
+			Game.width = Display.getDisplayMode().getWidth();
+			Game.height = Display.getDisplayMode().getHeight();
+			Game.frameCap = Display.getDisplayMode().getFrequency();
 			System.out.println(Display.getDisplayMode());
 		} catch (LWJGLException e) {
 			e.printStackTrace();
@@ -121,17 +164,20 @@ public class Game implements Runnable {
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
+		//Init
 		init();
+		//Game loop
 		while (!Display.isCloseRequested()) {
 			update();
 			render();
 			Display.update();
+			//Non time-critical stuff
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			System.gc();
-			Display.sync(Game.FRAME_CAP);
+			Display.sync(Game.frameCap); //Wait till next frame
 		}
-		Display.destroy();
-		System.gc();
+		//Exit
+		exit();
 	}
 
 	public void setBackground(Background background) {
@@ -155,10 +201,16 @@ public class Game implements Runnable {
 		this.world = world;
 	}
 
+	/**
+	 * Puts game back into gameplay
+	 */
 	public void unpause() {
 		setCurrentGameState(GameState.GAMEPLAY);
 	}
 
+	/**
+	 * Updates game
+	 */
 	private void update() {
 		Input.update();
 		background.update();
