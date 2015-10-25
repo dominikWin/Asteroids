@@ -13,6 +13,10 @@ public class Vector2d {
 	public static Vector2d add(Vector2d obj1, Vector2d obj2) {
 		return new Vector2d(obj1.x + obj2.x, obj1.y + obj2.y);
 	}
+	
+	public static Vector2d multiply(Vector2d obj, double amount) {
+		return new Vector2d(obj.x * amount, obj.y * amount);
+	}
 
 	/**
 	 * @param obj1

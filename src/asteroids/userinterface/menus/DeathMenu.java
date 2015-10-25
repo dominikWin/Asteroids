@@ -32,7 +32,7 @@ public class DeathMenu implements Menu {
 	 * Updates menu
 	 */
 	@Override
-	public void update() {
+	public void update(double time) {
 		if (Input.getKeyDown(Keyboard.KEY_RETURN)) deathKeyPress(); //Handle input
 	}
 }

@@ -105,9 +105,10 @@ public class Bullet {
 
 	/**
 	 * Updates bullet
+	 * @param time 
 	 */
-	public void update() {
-		location = new Vector2d(location, rotation, speed);
+	public void update(double time) {
+		location = new Vector2d(location, rotation, (double) speed * time);
 		shape.setLocation(location);
 		shape.updatePoints();
 		collisionTest();

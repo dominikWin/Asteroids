@@ -126,20 +126,21 @@ public class UserInterface {
 
 	/**
 	 * Updates UserInterface
+	 * @param time 
 	 */
-	public void update() {
+	public void update(double time) {
 		switch (Game.getInstance().getCurrentGameState()) {
 		case DEATH:
-			deathMenu.update();
+			deathMenu.update(time);
 			break;
 		case GAMEPLAY:
-			gameplayMenu.update();
+			gameplayMenu.update(time);
 			break;
 		case MAIN_MENU:
-			mainMenu.update();
+			mainMenu.update(time);
 			break;
 		case PAUSED:
-			pauseMenu.update();
+			pauseMenu.update(time);
 			break;
 		default:
 			break;

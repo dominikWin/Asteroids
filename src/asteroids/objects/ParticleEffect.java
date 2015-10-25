@@ -57,10 +57,11 @@ public class ParticleEffect {
 
 		/**
 		 * Update particle location
+		 * @param time 
 		 */
-		public void update() {
-			location.add(velocity);
-			velocity.add(new Vector2d(0, Particle.GRAVITY_MULTIPLYER)); //Apply particle gravity
+		public void update(double time) {
+			location.add(Vector2d.multiply(velocity, time));
+			velocity.add(Vector2d.multiply(new Vector2d(0, Particle.GRAVITY_MULTIPLYER), time)); //Apply particle gravity
 		}
 	}
 
@@ -122,9 +123,10 @@ public class ParticleEffect {
 
 	/**
 	 * Updates all particles
+	 * @param time 
 	 */
-	public void update() {
+	public void update(double time) {
 		removeOffScreenParticles();
-		particles.forEach(p -> p.update()); //Updates all particles
+		particles.forEach(p -> p.update(time)); //Updates all particles
 	}
 }

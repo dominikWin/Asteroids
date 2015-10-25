@@ -139,8 +139,9 @@ public class Progress {
 
 	/**
 	 * Updates progression
+	 * @param time 
 	 */
-	public void update() {
+	public void update(double time) {
 		//Gun unlocks
 		switch (stage) {
 		case WAIT_INIT:

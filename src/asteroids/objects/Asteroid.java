@@ -169,15 +169,16 @@ public class Asteroid {
 
 	/**
 	 * Updates asteroid
+	 * @param time 
 	 */
-	public void update() {
+	public void update(double time) {
 		//Keeps asteroid in screen
 		while (location.getX() < 0) location.setX(location.getX() + Game.width);
 		while (location.getX() > Game.width) location.setX(location.getX() - Game.width);
 		while (location.getY() < 0) location.setY(location.getY() + Game.height);
 		while (location.getY() > Game.height) location.setY(location.getY() - Game.height);
-		rotation += rotationSpeed; //Rotate asteroid
-		location.add(getVelocity()); //Move
+		rotation += rotationSpeed * time; //Rotate asteroid
+		location.add(Vector2d.multiply(getVelocity(), time)); //Move
 		shape.setRotation(rotation); //Update location
 		shape.updatePoints();
 	}

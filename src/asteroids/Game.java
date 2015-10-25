@@ -14,8 +14,7 @@ import asteroids.userinterface.UserInterface;
  */
 public class Game implements Runnable {
 	/**
-	 * @author Dominik
-	 * States of game
+	 * @author Dominik States of game
 	 */
 	public enum GameState {
 		DEATH, GAMEPLAY, MAIN_MENU, PAUSED;
@@ -33,7 +32,8 @@ public class Game implements Runnable {
 	 * @return single instance of Game class
 	 */
 	public static Game getInstance() {
-		if (Game.instance == null) Game.instance = new Game();
+		if (Game.instance == null)
+			Game.instance = new Game();
 		return Game.instance;
 	}
 
@@ -127,7 +127,8 @@ public class Game implements Runnable {
 	 */
 	private void render() {
 		background.render();
-		if (currentGameState == GameState.GAMEPLAY) world.render();
+		if (currentGameState == GameState.GAMEPLAY)
+			world.render();
 		ui.render();
 	}
 
@@ -145,38 +146,48 @@ public class Game implements Runnable {
 	 */
 	@Override
 	public void run() {
-		//Create display
+		// Create display
 		try {
 			Display.setDisplayModeAndFullscreen(Display.getDesktopDisplayMode());
 			Display.setFullscreen(Game.fullscreen);
 			Display.setVSyncEnabled(Game.vSyncEnabled);
 			Display.setResizable(false);
-			//Update resolution
+			// Update resolution
 			Game.width = Display.getDisplayMode().getWidth();
 			Game.height = Display.getDisplayMode().getHeight();
 			Game.frameCap = Display.getDisplayMode().getFrequency();
 			System.out.println(Display.getDisplayMode());
 		} catch (LWJGLException e) {
 			e.printStackTrace();
-		};
+		}
+		;
 		try {
 			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
-		//Init
+		// Init
 		init();
-		//Game loop
+		// Game loop
+
+		long lastRunTime = 0;
+		double time = 0;
+
 		while (!Display.isCloseRequested()) {
-			update();
-			render();
-			Display.update();
-			//Non time-critical stuff
-			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-			System.gc();
-			Display.sync(Game.frameCap); //Wait till next frame
+			long startTime = System.nanoTime();
+			{
+				update(time);
+				render();
+				Display.update();
+				// Non time-critical stuff
+				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+			}
+			long endTime = System.nanoTime();
+			lastRunTime = endTime - startTime;
+			time = lastRunTime / 1000000000d;
+			time *= 60;
 		}
-		//Exit
+		// Exit
 		exit();
 	}
 
@@ -210,14 +221,15 @@ public class Game implements Runnable {
 
 	/**
 	 * Updates game
+	 * @param time 
 	 */
-	private void update() {
+	private void update(double time) {
 		Input.update();
-		background.update();
+		background.update(time);
 		if (currentGameState == GameState.GAMEPLAY) {
-			progress.update();
-			world.update();
+			progress.update(time);
+			world.update(time);
 		}
-		ui.update();
+		ui.update(time);
 	}
 }

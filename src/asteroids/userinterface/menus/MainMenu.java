@@ -73,7 +73,7 @@ public class MainMenu implements Menu {
 	 * Updates Menu
 	 */
 	@Override
-	public void update() {
+	public void update(double time) {
 		if (Input.getKeyDown(Keyboard.KEY_RETURN)) //Confirm key
 			menuKeyPress();//Handle input
 		

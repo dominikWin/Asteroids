@@ -151,13 +151,14 @@ public class World {
 
 	/**
 	 * Updates world
+	 * @param time 
 	 */
-	public void update() {
+	public void update(double time) {
 		removeDestroyedAsteroids();
-		asteroids.forEach(a -> a.update()); //Updates asteroids
-		bullets.forEach(b -> b.update()); //Updates bullets
+		asteroids.forEach(a -> a.update(time)); //Updates asteroids
+		bullets.forEach(b -> b.update(time)); //Updates bullets
 		removeFinishedParticleEffects();
-		particleEffects.forEach(e -> e.update()); //Updates particleEffects
+		particleEffects.forEach(e -> e.update(time)); //Updates particleEffects
 		removeOffScreenBullets();
 		removeDestroyedBullets();
 		player.update(); //Updates player

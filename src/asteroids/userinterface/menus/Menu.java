@@ -13,6 +13,7 @@ public interface Menu {
 	
 	/**
 	 * Updates Menu
+	 * @param time 
 	 */
-	public void update();
+	public void update(double time);
 }

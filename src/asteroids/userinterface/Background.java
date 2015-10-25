@@ -36,9 +36,10 @@ public class Background {
 
 		/**
 		 * Updates particle
+		 * @param time 
 		 */
-		public void update() {
-			location.add(velocity); //Add velocity
+		public void update(double time) {
+			location.add(Vector2d.multiply(velocity, time)); //Add velocity
 			
 			//Reposition off-screen particles
 			if ((location.getX() < 0) || (location.getX() > Game.width) || (location.getY() < 0) || (location.getY() > Game.height)) {
@@ -93,8 +94,9 @@ public class Background {
 
 	/**
 	 * Updates particles
+	 * @param time 
 	 */
-	public void update() {
-		particals.forEach(p -> p.update()); //Updates each particle
+	public void update(double time) {
+		particals.forEach(p -> p.update(time)); //Updates each particle
 	}
 }

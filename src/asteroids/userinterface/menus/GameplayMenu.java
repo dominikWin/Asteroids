@@ -61,7 +61,7 @@ public class GameplayMenu implements Menu {
 	 * Updates menu
 	 */
 	@Override
-	public void update() {
+	public void update(double time) {
 		//Update game data
 		round = Game.getInstance().getProgress().getRound();
 		score = Game.getInstance().getWorld().getPlayer().getScore();
