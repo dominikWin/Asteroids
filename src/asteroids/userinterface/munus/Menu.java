@@ -1,4 +1,4 @@
-package com.thiefg.asteroids.userinterface.munus;
+package asteroids.userinterface.munus;
 
 /**
  * @author Dominik

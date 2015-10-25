@@ -1,4 +1,4 @@
-package com.thiefg.asteroids.subobjects;
+package asteroids.subobjects;
 
 /**
  * @author Dominik

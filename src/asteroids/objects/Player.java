@@ -1,14 +1,14 @@
-package com.thiefg.asteroids.objects;
+package asteroids.objects;
 
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.thiefg.asteroids.Game;
-import com.thiefg.asteroids.input.Input;
-import com.thiefg.asteroids.objects.modifiers.GunModifier;
-import com.thiefg.asteroids.subobjects.Vector2d;
+import asteroids.Game;
+import asteroids.input.Input;
+import asteroids.objects.modifiers.GunModifier;
+import asteroids.subobjects.Vector2d;
 
 /**
  * @author Dominik

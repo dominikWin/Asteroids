@@ -1,7 +1,7 @@
-package com.thiefg.asteroids;
+package asteroids;
 
-import com.thiefg.asteroids.objects.Asteroid;
-import com.thiefg.asteroids.objects.modifiers.GunModifier;
+import asteroids.objects.Asteroid;
+import asteroids.objects.modifiers.GunModifier;
 
 /**
  * @author Dominik

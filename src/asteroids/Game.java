@@ -1,12 +1,12 @@
-package com.thiefg.asteroids;
+package asteroids;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
-import com.thiefg.asteroids.input.Input;
-import com.thiefg.asteroids.userinterface.Background;
-import com.thiefg.asteroids.userinterface.UserInterface;
+import asteroids.input.Input;
+import asteroids.userinterface.Background;
+import asteroids.userinterface.UserInterface;
 
 /**
  * @author Dominik

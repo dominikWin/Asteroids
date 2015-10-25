@@ -1,4 +1,4 @@
-package com.thiefg.asteroids.subobjects;
+package asteroids.subobjects;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.thiefg.asteroids.userinterface;
+package asteroids.userinterface;
 
 import java.awt.Font;
 import java.io.FileInputStream;
@@ -8,12 +8,12 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 
-import com.thiefg.asteroids.Game;
-import com.thiefg.asteroids.userinterface.munus.DeathMenu;
-import com.thiefg.asteroids.userinterface.munus.GameplayMenu;
-import com.thiefg.asteroids.userinterface.munus.MainMenu;
-import com.thiefg.asteroids.userinterface.munus.Menu;
-import com.thiefg.asteroids.userinterface.munus.PauseMenu;
+import asteroids.Game;
+import asteroids.userinterface.munus.DeathMenu;
+import asteroids.userinterface.munus.GameplayMenu;
+import asteroids.userinterface.munus.MainMenu;
+import asteroids.userinterface.munus.Menu;
+import asteroids.userinterface.munus.PauseMenu;
 
 /**
  * @author Dominik

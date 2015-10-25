@@ -1,10 +1,10 @@
-package com.thiefg.asteroids.userinterface.munus;
+package asteroids.userinterface.munus;
 
 import org.lwjgl.input.Keyboard;
 
-import com.thiefg.asteroids.Game;
-import com.thiefg.asteroids.input.Input;
-import com.thiefg.asteroids.userinterface.UserInterface;
+import asteroids.Game;
+import asteroids.input.Input;
+import asteroids.userinterface.UserInterface;
 
 /**
  * @author Dominik

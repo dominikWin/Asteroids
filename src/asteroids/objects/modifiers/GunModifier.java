@@ -1,4 +1,4 @@
-package com.thiefg.asteroids.objects.modifiers;
+package asteroids.objects.modifiers;
 
 /**
  * @author Dominik

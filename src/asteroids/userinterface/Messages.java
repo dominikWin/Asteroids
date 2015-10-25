@@ -1,4 +1,4 @@
-package com.thiefg.asteroids.userinterface;
+package asteroids.userinterface;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
  * Loads custom strings from file
  */
 public class Messages {
-	private static final String BUNDLE_NAME = "com.thiefg.asteroids.userinterface.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "asteroids.userinterface.messages"; //$NON-NLS-1$
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(Messages.BUNDLE_NAME);
 
 	/**

@@ -1,14 +1,14 @@
-package com.thiefg.asteroids.userinterface.munus;
+package asteroids.userinterface.munus;
 
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.thiefg.asteroids.Game;
-import com.thiefg.asteroids.input.Input;
-import com.thiefg.asteroids.subobjects.Vector2d;
-import com.thiefg.asteroids.userinterface.PlayerModel;
+import asteroids.Game;
+import asteroids.input.Input;
+import asteroids.subobjects.Vector2d;
+import asteroids.userinterface.PlayerModel;
 
 /**
  * @author Dominik

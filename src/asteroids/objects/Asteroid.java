@@ -1,8 +1,8 @@
-package com.thiefg.asteroids.objects;
+package asteroids.objects;
 
-import com.thiefg.asteroids.Game;
-import com.thiefg.asteroids.subobjects.VariableDistancePolygon;
-import com.thiefg.asteroids.subobjects.Vector2d;
+import asteroids.Game;
+import asteroids.subobjects.VariableDistancePolygon;
+import asteroids.subobjects.Vector2d;
 
 /**
  * @author Dominik

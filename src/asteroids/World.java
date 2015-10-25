@@ -1,14 +1,14 @@
-package com.thiefg.asteroids;
+package asteroids;
 
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import com.thiefg.asteroids.objects.Asteroid;
-import com.thiefg.asteroids.objects.Bullet;
-import com.thiefg.asteroids.objects.ParticleEffect;
-import com.thiefg.asteroids.objects.Player;
-import com.thiefg.asteroids.subobjects.Vector2d;
+import asteroids.objects.Asteroid;
+import asteroids.objects.Bullet;
+import asteroids.objects.ParticleEffect;
+import asteroids.objects.Player;
+import asteroids.subobjects.Vector2d;
 
 /**
  * @author Dominik

@@ -1,11 +1,11 @@
-package com.thiefg.asteroids.userinterface;
+package asteroids.userinterface;
 
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import com.thiefg.asteroids.Game;
-import com.thiefg.asteroids.subobjects.Vector2d;
+import asteroids.Game;
+import asteroids.subobjects.Vector2d;
 
 /**
  * @author Dominik
