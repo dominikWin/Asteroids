@@ -9,11 +9,11 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 
 import asteroids.Game;
-import asteroids.userinterface.munus.DeathMenu;
-import asteroids.userinterface.munus.GameplayMenu;
-import asteroids.userinterface.munus.MainMenu;
-import asteroids.userinterface.munus.Menu;
-import asteroids.userinterface.munus.PauseMenu;
+import asteroids.userinterface.menus.DeathMenu;
+import asteroids.userinterface.menus.GameplayMenu;
+import asteroids.userinterface.menus.MainMenu;
+import asteroids.userinterface.menus.Menu;
+import asteroids.userinterface.menus.PauseMenu;
 
 /**
  * @author Dominik

@@ -1,4 +1,4 @@
-package asteroids.userinterface.munus;
+package asteroids.userinterface.menus;
 
 import java.util.ArrayList;
 

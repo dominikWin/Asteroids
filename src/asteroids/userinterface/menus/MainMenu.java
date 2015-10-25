@@ -1,4 +1,4 @@
-package asteroids.userinterface.munus;
+package asteroids.userinterface.menus;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
